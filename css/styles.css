@@ -279,7 +279,6 @@ table.data td.bad { color: var(--bad); }
 .home-hero-art g path { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; stroke-linejoin: round; }
 .home-hero-art .far { opacity: .55; }
 .home-hero-art .glass { fill: color-mix(in srgb, var(--accent) 40%, transparent); }
-.home-hero-art .body { fill: color-mix(in srgb, var(--accent) 18%, var(--bg)); }
 .home-hero-art .wing-root { fill: none; stroke-width: 1.1; opacity: .85; }
 .home-hero-art .hp-plume, .home-hero-art .hp-core { stroke: none; transform-box: fill-box; transform-origin: right center; }
 .home-hero-art .hp-plume { fill: url(#hero-plume); animation: hero-flame .5s linear infinite; }
