@@ -156,15 +156,15 @@ const HERO_PLANE_SVG = `<svg viewBox="0 0 300 200">
   </defs>
   <g transform="translate(166 92) rotate(-34) scale(1.55) translate(-76 -19)">
     <g class="hp-streaks">
-      <line x1="70" y1="-18" x2="96" y2="-18" style="animation-duration:1.6s;animation-delay:-0.0s"/>
-      <line x1="110" y1="2" x2="144" y2="2" style="animation-duration:1.3s;animation-delay:-0.5s"/>
-      <line x1="95" y1="44" x2="117" y2="44" style="animation-duration:1.8s;animation-delay:-1.1s"/>
-      <line x1="40" y1="-4" x2="58" y2="-4" style="animation-duration:1.5s;animation-delay:-0.8s"/>
-      <line x1="60" y1="52" x2="90" y2="52" style="animation-duration:1.4s;animation-delay:-0.25s"/>
-      <line x1="130" y1="30" x2="154" y2="30" style="animation-duration:1.7s;animation-delay:-1.4s"/>
-      <line x1="120" y1="-26" x2="140" y2="-26" style="animation-duration:1.9s;animation-delay:-0.6s"/>
-      <line x1="20" y1="14" x2="48" y2="14" style="animation-duration:1.5s;animation-delay:-1.7s"/>
-      <line x1="115" y1="60" x2="133" y2="60" style="animation-duration:1.6s;animation-delay:-0.95s"/>
+      <line x1="70" y1="-36" x2="96" y2="-36" style="animation-duration:1.6s;animation-delay:-0.0s"/>
+      <line x1="110" y1="-6" x2="144" y2="-6" style="animation-duration:1.3s;animation-delay:-0.5s"/>
+      <line x1="95" y1="56" x2="117" y2="56" style="animation-duration:1.8s;animation-delay:-1.1s"/>
+      <line x1="40" y1="-16" x2="58" y2="-16" style="animation-duration:1.5s;animation-delay:-0.8s"/>
+      <line x1="60" y1="68" x2="90" y2="68" style="animation-duration:1.4s;animation-delay:-0.25s"/>
+      <line x1="130" y1="36" x2="154" y2="36" style="animation-duration:1.7s;animation-delay:-1.4s"/>
+      <line x1="120" y1="-48" x2="140" y2="-48" style="animation-duration:1.9s;animation-delay:-0.6s"/>
+      <line x1="20" y1="12" x2="48" y2="12" style="animation-duration:1.5s;animation-delay:-1.7s"/>
+      <line x1="115" y1="80" x2="133" y2="80" style="animation-duration:1.6s;animation-delay:-0.95s"/>
     </g>
   </g>
   <g class="hp-float">
