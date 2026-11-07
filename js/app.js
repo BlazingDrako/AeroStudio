@@ -73,7 +73,7 @@ let current = null;
 function buildNav() {
   nav.replaceChildren();
   nav.append(h('div', { class: 'brand' },
-    h('img', { class: 'brand-mark', src: 'assets/favicon.svg', alt: '', width: 30, height: 30 }),
+    h('img', { class: 'brand-mark', src: 'assets/favicon.svg?v=2', alt: '', width: 30, height: 30 }),
     h('div', {}, h('div', { class: 'brand-name' }, 'AeroStudio'), h('div', { class: 'brand-sub' }, 'See the physics'))));
   const find = h('button', { class: 'nav-item nav-search', type: 'button', title: `Search modules, concepts and formulas (${searchShortcut()})` }, icon('search'), 'Search');
   find.addEventListener('click', () => openSearch());
