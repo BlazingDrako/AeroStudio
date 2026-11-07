@@ -1,7 +1,7 @@
 // Rocket engine cut-away: chamber and nozzle drawn to scale, the gas colored by temperature, Mach number,
 // pressure or wall heat flux, and the exhaust plume for the current ambient pressure (expansion fans or lip
 // shocks, shock cells / Mach diamonds, Mach disk, separation inside the nozzle). Hover for local values.
-import { h, cssVar } from '../../lib/ui.js';
+import { h, cssVar, canvasTag } from '../../lib/ui.js';
 import * as R from '../../solvers/rocket.js';
 import { heat, rgb } from './common.js';
 
@@ -153,11 +153,14 @@ export class EngineView {
     if (W > 420) {
       g.font = '11px ' + cssVar('--font'); g.fillStyle = C.t2; g.textAlign = 'center'; g.textBaseline = 'bottom';
       const ch = D.along[0], th = D.throat, ex = D.along[D.along.length - 1];
-      const lab = (x, y, a, b) => { g.fillStyle = C.t2; g.fillText(a, x, y - 13); g.fillStyle = C.t3; g.font = '10.5px ' + cssVar('--mono'); g.fillText(b, x, y); g.font = '11px ' + cssVar('--font'); };
+      // two-line label (name over values) on a readable tag; top = y of the first line's top edge
+      const tag2 = (x, top, a, b) => { const wa = g.measureText(a).width; g.font = '10.5px ' + cssVar('--mono'); const w = Math.max(wa, g.measureText(b).width) + 14; g.font = '11px ' + cssVar('--font'); canvasTag(g, x - w / 2, top - 4, w, 30); };
+      const lab = (x, y, a, b) => { tag2(x, y - 25, a, b); g.fillStyle = C.t2; g.fillText(a, x, y - 13); g.fillStyle = C.t3; g.font = '10.5px ' + cssVar('--mono'); g.fillText(b, x, y); g.font = '11px ' + cssVar('--font'); };
       const cx = v => Math.max(62, Math.min(W - 62, v));
       lab(cx(X((geo.xInj + geo.xF) / 2)), Y(geo.Rc) - tw - 6, 'Chamber', `${ch.T.toFixed(0)} K · ${(D.Pc / 1e5).toFixed(0)} bar`);
       g.textBaseline = 'top';
       const yb = Y(-D.Rt) + tw + 6;
+      tag2(cx(X(0)), yb, 'Throat', `M 1 · ${(th.P / 1e5).toFixed(1)} bar`);
       g.fillStyle = C.t2; g.fillText('Throat', cx(X(0)), yb); g.fillStyle = C.t3; g.font = '10.5px ' + cssVar('--mono'); g.fillText(`M 1 · ${(th.P / 1e5).toFixed(1)} bar`, cx(X(0)), yb + 13); g.font = '11px ' + cssVar('--font');
       g.textBaseline = 'bottom';
       lab(cx(X(geo.xE)), Y(geo.Re) - tw - 6, 'Exit', `M ${ex.M.toFixed(2)} · ${(D.pe / 1e5).toFixed(3)} bar`);

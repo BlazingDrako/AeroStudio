@@ -1,6 +1,6 @@
 // Composite flow visualization: GPU field (pressure/speed + streamlines), animated particles,
 // and a vector overlay (airfoil, boundary layer, pressure arrows, forces, key points).
-import { h, cssVar, hexToRgb, icon } from '../../lib/ui.js';
+import { h, cssVar, hexToRgb, icon, canvasTag } from '../../lib/ui.js';
 import { FieldGL } from './fieldGL.js';
 import { evalPoint, cpFromSpeed, cpuGrid } from './fieldCPU.js';
 
@@ -505,8 +505,9 @@ function arrow(g, x0, y0, x1, y1, color, w, head) {
   g.lineTo(x1 - ux * hh + uy * hh * 0.5, y1 - uy * hh - ux * hh * 0.5); g.closePath(); g.fill();
 }
 function label(g, text, x, y, color, align = 'left') {
-  g.font = '11.5px ' + cssVar('--font'); g.textAlign = align; g.textBaseline = 'middle';
-  g.lineWidth = 3.5; g.strokeStyle = cssVar('--stage'); g.lineJoin = 'round'; g.strokeText(text, x, y);
+  g.font = '500 11.5px ' + cssVar('--font'); g.textAlign = align; g.textBaseline = 'middle';
+  const w = g.measureText(text).width, x0 = align === 'left' ? x - 6 : align === 'right' ? x - w - 6 : x - w / 2 - 6;
+  canvasTag(g, x0, y - 10, w + 12, 20);
   g.fillStyle = color; g.fillText(text, x, y);
 }
 export function surfacePoint(res, is, xq) {

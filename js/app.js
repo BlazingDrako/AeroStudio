@@ -46,7 +46,7 @@ const modules = [
   { ...flightModule, icon: 'plane', group: 'Flight', status: 'live',
     blurb: 'The air an aircraft flies through and what it can do in it: performance, the flight envelope and stability, for five aircraft from a sailplane to a fighter.',
     features: ['Standard atmosphere, airspeeds and Dryden turbulence', 'Climb, range, takeoff, landing, turns and the V–n diagram', 'Trim, root loci and the five dynamic modes, animated'] },
-  { ...gncModule, icon: 'target', group: 'Flight', status: 'live',
+  { ...gncModule, icon: 'target', group: 'Flight', status: 'live', navTitle: 'Guidance & Navigation',
     blurb: 'Feedback that flies the aircraft: design control loops, then fly augmented and fly-by-wire aircraft, autopilots, navigation and formations.',
     features: ['Bode, Nyquist and a draggable root locus; dampers and fly-by-wire', 'Autopilots on a flight display; great circles, VOR, DME and ILS', 'INS/GNSS Kalman filter and collaborative formation flight'] },
   { ...orbitsModule, icon: 'globe', group: 'Flight', status: 'live',
@@ -73,22 +73,22 @@ let current = null;
 function buildNav() {
   nav.replaceChildren();
   nav.append(h('div', { class: 'brand' },
-    h('img', { class: 'brand-mark', src: 'assets/favicon.svg?v=2', alt: '', width: 30, height: 30 }),
+    h('img', { class: 'brand-mark', src: 'assets/favicon.svg?v=2', alt: '', width: 32, height: 32 }),
     h('div', {}, h('div', { class: 'brand-name' }, 'AeroStudio'), h('div', { class: 'brand-sub' }, 'See the physics'))));
-  const find = h('button', { class: 'nav-item nav-search', type: 'button', title: `Search modules, concepts and formulas (${searchShortcut()})` }, icon('search'), 'Search');
+  const find = h('button', { class: 'nav-item nav-search', type: 'button', title: `Search modules, concepts and formulas (${searchShortcut()})` }, icon('search'), h('span', { class: 'nav-label' }, 'Search'), h('span', { class: 'kbd' }, searchShortcut()));
   find.addEventListener('click', () => openSearch());
-  const home = h('a', { class: 'nav-item', href: '#/', 'data-id': 'home' }, icon('home'), 'Home');
+  const home = h('a', { class: 'nav-item', href: '#/', 'data-id': 'home' }, icon('home'), h('span', { class: 'nav-label' }, 'Home'));
   nav.append(find, home);
   let group = null;
   for (const m of modules) {
     if (m.group !== group) { group = m.group; nav.append(h('div', { class: 'nav-group' }, group)); }
-    nav.append(h('a', { class: 'nav-item', href: '#/' + m.id, 'data-id': m.id, title: m.title + (m.status === 'planned' ? ' (coming soon)' : '') }, icon(m.icon), m.title, m.status === 'planned' ? h('span', { class: 'soon' }, 'soon') : null));
+    nav.append(h('a', { class: 'nav-item' + (m.status === 'planned' ? ' planned' : ''), href: '#/' + m.id, 'data-id': m.id, title: m.title + (m.status === 'planned' ? ' (coming soon)' : '') }, icon(m.icon), h('span', { class: 'nav-label' }, m.navTitle || m.title)));
   }
   const themeBtn = h('button', { class: 'nav-item', type: 'button' });
-  const paintTheme = () => { const dark = resolvedTheme() === 'dark'; themeBtn.replaceChildren(icon(dark ? 'sun' : 'moon'), dark ? 'Light theme' : 'Dark theme'); };
+  const paintTheme = () => { const dark = resolvedTheme() === 'dark'; themeBtn.replaceChildren(icon(dark ? 'sun' : 'moon'), h('span', { class: 'nav-label' }, dark ? 'Light theme' : 'Dark theme')); };
   themeBtn.addEventListener('click', () => { setTheme(resolvedTheme() === 'dark' ? 'light' : 'dark'); paintTheme(); });
   paintTheme();
-  nav.append(h('div', { class: 'sidebar-foot' }, themeBtn));
+  nav.append(h('div', { class: 'sidebar-foot' }, themeBtn, h('div', { class: 'sidebar-credit' }, 'Made by Andrew Aguiar')));
 }
 
 function resolvedTheme() {
@@ -118,24 +118,49 @@ function route() {
 
 function renderHome() {
   document.title = 'AeroStudio';
-  const cards = modules.map(m => {
-    const tag = h('span', { class: 'tag' + (m.status === 'live' ? ' live' : '') }, m.status === 'live' ? 'Ready' : 'Planned');
-    const card = h(m.status === 'live' ? 'a' : 'div', { class: 'card' + (m.status === 'live' ? '' : ' dim'), href: m.status === 'live' ? '#/' + m.id : null },
+  const card = m => {
+    const live = m.status === 'live';
+    const tag = h('span', { class: 'tag' + (live ? ' live' : '') }, live ? 'Ready' : 'Coming soon');
+    return h(live ? 'a' : 'div', { class: 'card' + (live ? '' : ' dim'), href: live ? '#/' + m.id : null },
       PREVIEWS[m.id] ? h('div', { class: 'card-preview', html: PREVIEWS[m.id]() }) : null,
       h('div', { class: 'row' }, h('div', { class: 'ci' }, icon(m.icon, 20)), h('div', { class: 'grow' }), tag),
       h('h3', {}, m.title), h('p', {}, m.blurb), h('ul', {}, ...m.features.map(f => h('li', {}, f))));
-    return card;
-  });
-  view.append(h('div', { class: 'home' }, h('div', { class: 'home-inner' },
-    h('div', { class: 'hero' }, h('h1', {}, 'Aerospace engineering you can see.', h('span', { class: 'hero-jet', 'aria-hidden': 'true', html: JET_SVG })),
-      h('p', {}, 'Professional-grade analysis tools with a visual to attach every concept to: watch pressure build on a wing, the boundary layer thicken and separate, shocks form and engines breathe. Free, fast, and running entirely in your browser.')),
-    h('div', { class: 'cards' }, ...cards))));
+  };
+  const live = modules.filter(m => m.status === 'live'), planned = modules.filter(m => m.status !== 'live');
+  const groups = [...new Set(live.map(m => m.group))];
+  const section = (title, list, extra) => h('section', { class: 'home-section' + (extra || '') },
+    h('div', { class: 'home-section-head' }, h('h2', {}, title), h('span', {}, list.length + (list.length === 1 ? ' tool' : ' tools'))),
+    h('div', { class: 'cards' }, ...list.map(card)));
+  const browse = h('a', { class: 'btn hero-btn', href: '#tools' }, 'Browse tools');
+  browse.addEventListener('click', e => { e.preventDefault(); view.querySelector('#tools')?.scrollIntoView({ behavior: 'smooth' }); });
+  view.append(h('div', { class: 'home' },
+    h('header', { class: 'home-hero' },
+      h('div', { class: 'home-hero-art', 'aria-hidden': 'true', html: HERO_PLANE_SVG }),
+      h('div', { class: 'home-hero-text' },
+        h('span', { class: 'hero-pill' }, `${live.length} tools · free · runs in your browser`),
+        h('h1', {}, 'Aerospace engineering ', h('span', { class: 'accent' }, 'you can see.')),
+        h('p', {}, 'Professional-grade analysis tools with a visual to attach every concept to: watch pressure build on a wing, the boundary layer thicken and separate, shocks form and engines breathe.'),
+        h('div', { class: 'hero-actions' }, h('a', { class: 'btn primary hero-btn', href: '#/airfoil' }, 'Open Airfoil Lab', icon('arrow-right', 16)), browse))),
+    h('div', { class: 'home-inner', id: 'tools' },
+      ...groups.map(g => section(g, live.filter(m => m.group === g))),
+      planned.length ? section('Coming soon', planned, ' soon') : null,
+      h('footer', { class: 'home-credit' }, 'Made by Andrew Aguiar'))));
 }
 
-// F-14 side profile beside the home-page title: flies in, then holds a gentle formation drift (CSS; still when reduced motion is on)
-const JET_SVG = `<svg viewBox="-30 0 170 37" width="150" height="33">
-  <g class="lines"><line x1="-24" y1="17.3" x2="-4" y2="17.3"/><line x1="-20" y1="30.3" x2="0" y2="30.3"/><line x1="-28" y1="24.3" x2="-12" y2="24.3"/></g>
-  <g class="jet-in"><g class="jet-drift"><g class="jet-craft"><path class="exhaust" d="M15.4 22.2 L-1.6 23.1 L-1.6 25.5 L15.4 26.5 Z"/><path class="far" d="M55.7 16.9 L34.6 3.4 L27.3 3.4 L23.3 18.8 Z"/><path class="far" d="M42.9 22.3 L9.2 23.7 L8.0 24.5 L41.0 23.7 Z"/><path class="" d="M43.5 30.0 L38.0 34.4 L33.7 34.4 L32.8 29.5 Z"/><path class="" d="M21.5 21.2 L14.4 22.3 L14.4 26.9 L21.5 27.5 Z"/><path class="" d="M134.0 23.1 L129.1 21.5 L122.4 19.9 L115.0 18.8 L107.1 18.0 L102.8 16.9 L95.5 16.5 L85.7 16.3 L78.3 15.8 L63.0 16.5 L51.4 16.9 L35.5 17.9 L23.3 19.4 L21.5 20.9 L21.5 27.6 L28.8 29.1 L45.3 30.0 L85.7 30.3 L88.1 29.1 L92.4 26.6 L106.5 26.0 L112.6 26.5 L118.7 26.5 L122.4 25.6 L129.7 24.4 Z"/><path class="tint" d="M93.6 18.9 L86.0 30.2 L72.2 30.2 L72.2 19.3 Z"/><path class="" d="M82.0 20.3 L49.0 21.2 L45.3 21.8 L77.1 21.5 Z"/><path class="" d="M52.7 17.1 L31.2 3.0 L23.6 3.0 L19.9 19.7 Z"/><path class="glass" d="M107.1 18.0 L102.8 14.4 L97.9 12.5 L90.6 11.9 L83.2 12.7 L74.7 15.6 L78.3 15.8 L95.5 16.5 L102.8 16.9 Z"/><path class="line" d="M72.2 19.3 L24.5 20.0 M92.4 12.1 L91.8 16.4"/></g></g></g>
+// The logo plane, large, climbing across the home-page hero (CSS float; still when reduced motion is on)
+const HERO_PLANE_SVG = `<svg viewBox="0 0 300 200">
+  <defs><linearGradient id="hero-plume" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="var(--hl)"/><stop offset="1" stop-color="var(--hl)" stop-opacity="0"/></linearGradient></defs>
+  <g class="hp-float">
+    <g transform="translate(166 92) rotate(-34) scale(1.55) translate(-76 -19)">
+      <path class="hp-plume" d="M14.4 22.6 L-58 23.9 L-58 25.3 L14.4 26.6 Z"/>
+      <path class="far" d="M55.7 16.9 L34.6 3.4 L27.3 3.4 L23.3 18.8 Z"/>
+      <path d="M43.5 30.0 L38.0 34.4 L33.7 34.4 L32.8 29.5 Z"/>
+      <path d="M21.5 21.2 L14.4 22.3 L14.4 26.9 L21.5 27.5 Z"/>
+      <path d="M134.0 23.1 L129.1 21.5 L122.4 19.9 L115.0 18.8 L107.1 18.0 L102.8 16.9 L95.5 16.5 L85.7 16.3 L78.3 15.8 L63.0 16.5 L51.4 16.9 L35.5 17.9 L23.3 19.4 L21.5 20.9 L21.5 27.6 L28.8 29.1 L45.3 30.0 L85.7 30.3 L88.1 29.1 L92.4 26.6 L106.5 26.0 L112.6 26.5 L118.7 26.5 L122.4 25.6 L129.7 24.4 Z"/>
+      <path d="M52.7 17.1 L31.2 3.0 L23.6 3.0 L19.9 19.7 Z"/>
+      <path class="glass" d="M107.1 18.0 L102.8 14.4 L97.9 12.5 L90.6 11.9 L83.2 12.7 L74.7 15.6 L78.3 15.8 L95.5 16.5 L102.8 16.9 Z"/>
+    </g>
+  </g>
 </svg>`;
 
 function renderPlanned(m) {
@@ -155,3 +180,4 @@ addEventListener('hashchange', route);
 watchViews(view);
 initSearch(modules);
 route();
+if (document.fonts) document.fonts.ready.then(() => dispatchEvent(new Event('themechange')));

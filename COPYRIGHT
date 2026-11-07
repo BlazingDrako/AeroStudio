@@ -18,3 +18,5 @@ along with this program (see LICENSE).  If not, see
 Third-party code:
   js/solvers/mfoil/ is a port of mfoil.m, Copyright (C) 2025
   Krzysztof J. Fidkowski, used under the MIT license (see LICENSE-mfoil.txt).
+  assets/fonts/ contains Space Grotesk and JetBrains Mono, used under the
+  SIL Open Font License 1.1 (see the OFL-*.txt files in that folder).

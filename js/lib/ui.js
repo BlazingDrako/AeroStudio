@@ -180,6 +180,7 @@ export function icon(name, size = 18) {
     upload: '<path d="M12 15V4m0 0l-4 4m4-4l4 4M5 19h14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>',
     print: '<path d="M7 9V4h10v5M7 17H5a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2M7 14h10v6H7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
     search: '<circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M16 16l4.5 4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+    'arrow-right': '<path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
     send: '<path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>',
     play: '<path d="M8 5v14l11-7z" fill="currentColor"/>',
     pause: '<path d="M7 5h3v14H7zM14 5h3v14h-3z" fill="currentColor"/>',
@@ -193,6 +194,15 @@ export function icon(name, size = 18) {
 }
 
 export function cssVar(name, el = document.documentElement) { return getComputedStyle(el).getPropertyValue(name).trim(); }
+// Small rounded tag drawn behind canvas labels so they stay readable over any color.
+// (x0, y0) is the top-left corner in canvas pixels.
+export function canvasTag(g, x0, y0, w, hgt) {
+  g.save();
+  g.globalAlpha = 0.84; g.fillStyle = cssVar('--bg-elev');
+  g.beginPath(); g.roundRect ? g.roundRect(x0, y0, w, hgt, 6) : g.rect(x0, y0, w, hgt); g.fill();
+  g.globalAlpha = 1; g.strokeStyle = cssVar('--border-strong'); g.lineWidth = 1; g.stroke();
+  g.restore();
+}
 
 export function hexToRgb(hex) {
   hex = hex.replace('#', '');
