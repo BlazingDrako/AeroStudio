@@ -333,6 +333,7 @@ a.card:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)
 .card-preview .pv-flame { fill: color-mix(in srgb, var(--lower) 35%, transparent); stroke: var(--lower); stroke-width: 1.2; }
 .card-preview .pv-beam { fill: var(--bg-sunk); stroke: var(--text-2); stroke-width: 1.8; }
 .card-preview .pv-support { fill: var(--bg-elev); stroke: var(--text-2); stroke-width: 1.5; }
+.card-preview .pv-load { stroke: var(--lower); stroke-width: 1.7; }
 .card-preview .pv-mfill { fill: var(--accent-soft); stroke: none; }
 .card-preview .pv-mline { stroke: var(--accent); stroke-width: 2; }
 .card-preview .pv-axis { stroke: var(--border-strong); stroke-width: 1.2; }

@@ -25,13 +25,21 @@ function naca(m, p, t, c, x0, y0, a) {
 function airfoil() {
   const { up, lo } = naca(0.02, 0.4, 0.12, 150, 128, 62, 8);
   let s = '';
+  // Streamlines follow the nearest surface (upper lines the upper surface, lower lines the lower one),
+  // fading back to straight ahead of the nose and behind the tail; outer lines follow it less.
+  const surf = side => {
+    const P = side.slice().sort((A, B) => A[0] - B[0]), x0 = P[0][0], x1 = P[P.length - 1][0];
+    const at = x => { let i = 1; while (i < P.length - 1 && P[i][0] < x) i++; const [xa, ya] = P[i - 1], [xb, yb] = P[i]; return ya + (yb - ya) * (x - xa) / ((xb - xa) || 1); };
+    // past each end, carry on along the surface's own slope (no kink) while easing back to straight
+    const s0 = (at(x0 + 14) - at(x0)) / 14, s1 = (at(x1) - at(x1 - 14)) / 14;
+    const fade = (x, e, sl, L) => (at(e) - 64 + sl * (x - e)) * Math.exp(-(((x - e) / L) ** 2));
+    return x => x < x0 ? fade(x, x0, s0, 40) : x > x1 ? fade(x, x1, s1, 60) : at(x) - 64;
+  };
+  const fu = surf(up), fl = surf(lo);
   for (const k of [-3, -2, -1, 1, 2, 3]) {
-    const y0 = 64 + k * 14, line = [];
-    for (let x = 0; x <= W; x += 6) {
-      const g = Math.exp(-(((x - 150) / 70) ** 2));
-      const d = k < 0 ? 12 / -k : 4 / k; // lines over the top crowd upward; upwash ahead, downwash behind
-      line.push([x, y0 - g * d + (x - 150) * 0.05 * g]);
-    }
+    const y0 = 64 + k * 14, fs = k < 0 ? fu : fl, a = [1, 0.6, 0.3][Math.abs(k) - 1], line = [];
+    // lines under the wing only bend down (no hump where they pass the raised nose)
+    for (let x = 0; x <= W; x += 4) line.push([x, y0 + a * (k > 0 ? Math.max(0, fs(x)) : fs(x))]);
     s += `<path class="pv-stream flow" d="${pts(line)}"/>`;
   }
   s += `<path class="pv-fill" d="${pts(up)} ${pts(lo.slice().reverse()).replace('M', 'L')} Z"/>`;
@@ -84,14 +92,12 @@ function propulsion() {
 }
 
 function structures() {
-  // simply supported beam: distributed load on top, parabolic bending-moment diagram underneath
+  // simply supported beam: distributed load on top (orange force arrows)
   let arrows = '';
-  for (let x = 50; x <= 270; x += 20) arrows += `<path class="pv-arrow thin" d="M${x} 10 L${x} 28 M${x - 3} 23 L${x} 28 L${x + 3} 23"/>`;
-  let s = `<g class="press">${arrows}<path class="pv-arrow thin" d="M50 10 L270 10"/></g>`;
-  s += `<rect class="pv-beam" x="40" y="30" width="240" height="9" rx="1.5"/>`;
-  s += `<path class="pv-support" d="M50 39 L42 51 L58 51 Z M270 39 L262 49 L278 49 Z"/><circle class="pv-support" cx="266" cy="51.5" r="2"/><circle class="pv-support" cx="274" cy="51.5" r="2"/>`;
-  const m = []; for (let x = 50; x <= 270; x += 5) { const u = (x - 50) / 220; m.push([x, 62 + 48 * 4 * u * (1 - u)]); }
-  s += `<g class="flex"><path class="pv-mfill" d="M50 62 ${pts(m).replace('M', 'L')} L270 62 Z"/><path class="pv-mline" d="${pts(m)}"/></g><path class="pv-axis" d="M44 62 L276 62"/>`;
+  for (let x = 50; x <= 270; x += 20) arrows += `<path class="pv-load" d="M${x} 36 L${x} 58 M${x - 3.5} 52 L${x} 58 L${x + 3.5} 52"/>`;
+  let s = `<g class="press">${arrows}<path class="pv-load" d="M50 36 L270 36"/></g>`;
+  s += `<rect class="pv-beam" x="40" y="60" width="240" height="9" rx="1.5"/>`;
+  s += `<path class="pv-support" d="M50 69 L42 81 L58 81 Z M270 69 L262 79 L278 79 Z"/><circle class="pv-support" cx="266" cy="81.5" r="2"/><circle class="pv-support" cx="274" cy="81.5" r="2"/>`;
   return svg(s);
 }
 
