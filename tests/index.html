@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solver Validation</title>
+<style>
+  body { font: 14px/1.45 system-ui, sans-serif; margin: 24px; background: #0f1115; color: #e6e8ec; }
+  h1 { font-size: 18px; }
+  .r { padding: 8px 10px; border-radius: 6px; margin: 6px 0; background: #171a21; border-left: 4px solid #555; }
+  .ok { border-color: #3fb950; } .bad { border-color: #f85149; }
+  .d { color: #9aa3b2; font: 12px ui-monospace, monospace; white-space: pre-wrap; margin-top: 2px; }
+</style>
+</head>
+<body>
+<h1>AeroStudio — validation suite</h1>
+<div id="out">Running…</div>
+<script type="module">
+  import { runAll } from './tests.js';
+  runAll(document.getElementById('out'));
+</script>
+</body>
+</html>

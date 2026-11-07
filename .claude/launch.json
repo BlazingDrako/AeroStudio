@@ -1,0 +1,33 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "aerostudio",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "serve.py"
+      ],
+      "port": 8765
+    },
+    {
+      "name": "aerostudio-2",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "serve.py",
+        "8775",
+        "--no-browser"
+      ],
+      "port": 8775
+    },
+    {
+      "name": "aerostudio-3",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "serve.py",
+        "8785",
+        "--no-browser"
+      ],
+      "port": 8785
+    }
+  ]
+}
