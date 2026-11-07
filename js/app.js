@@ -73,7 +73,7 @@ let current = null;
 function buildNav() {
   nav.replaceChildren();
   nav.append(h('div', { class: 'brand' },
-    h('img', { class: 'brand-mark', src: 'assets/favicon.svg?v=2', alt: '', width: 32, height: 32 }),
+    h('img', { class: 'brand-mark', src: 'assets/favicon.svg?v=3', alt: '', width: 32, height: 32 }),
     h('div', {}, h('div', { class: 'brand-name' }, 'AeroStudio'), h('div', { class: 'brand-sub' }, 'See the physics'))));
   const find = h('button', { class: 'nav-item nav-search', type: 'button', title: `Search modules, concepts and formulas (${searchShortcut()})` }, icon('search'), h('span', { class: 'nav-label' }, 'Search'), h('span', { class: 'kbd' }, searchShortcut()));
   find.addEventListener('click', () => openSearch());
@@ -174,7 +174,9 @@ const HERO_PLANE_SVG = `<svg viewBox="0 0 300 200">
       <path class="far" d="M55.7 16.9 L34.6 3.4 L27.3 3.4 L23.3 18.8 Z"/>
       <path d="M43.5 30.0 L38.0 34.4 L33.7 34.4 L32.8 29.5 Z"/>
       <path d="M21.5 21.2 L14.4 22.3 L14.4 26.9 L21.5 27.5 Z"/>
-      <path d="M134.0 23.1 L129.1 21.5 L122.4 19.9 L115.0 18.8 L107.1 18.0 L102.8 16.9 L95.5 16.5 L85.7 16.3 L78.3 15.8 L63.0 16.5 L51.4 16.9 L35.5 17.9 L23.3 19.4 L21.5 20.9 L21.5 27.6 L28.8 29.1 L45.3 30.0 L85.7 30.3 L88.1 29.1 L92.4 26.6 L106.5 26.0 L112.6 26.5 L118.7 26.5 L122.4 25.6 L129.7 24.4 Z"/>
+      <path class="far" d="M76 24.2 L12 30.2 L4 33.6 L10.5 33.7 L70 27.4 Z"/>
+      <path class="body" d="M134.0 23.1 L129.1 21.5 L122.4 19.9 L115.0 18.8 L107.1 18.0 L102.8 16.9 L95.5 16.5 L85.7 16.3 L78.3 15.8 L63.0 16.5 L51.4 16.9 L35.5 17.9 L23.3 19.4 L21.5 20.9 L21.5 27.6 L28.8 29.1 L45.3 30.0 L85.7 30.3 L88.1 29.1 L92.4 26.6 L106.5 26.0 L112.6 26.5 L118.7 26.5 L122.4 25.6 L129.7 24.4 Z"/>
+      <path class="wing-root" d="M84 23.4 L44 24.2"/>
       <path d="M52.7 17.1 L31.2 3.0 L23.6 3.0 L19.9 19.7 Z"/>
       <path class="glass" d="M107.1 18.0 L102.8 14.4 L97.9 12.5 L90.6 11.9 L83.2 12.7 L74.7 15.6 L78.3 15.8 L95.5 16.5 L102.8 16.9 Z"/>
     </g>
