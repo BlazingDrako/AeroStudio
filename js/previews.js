@@ -30,10 +30,12 @@ function airfoil() {
   const surf = side => {
     const P = side.slice().sort((A, B) => A[0] - B[0]), x0 = P[0][0], x1 = P[P.length - 1][0];
     const at = x => { let i = 1; while (i < P.length - 1 && P[i][0] < x) i++; const [xa, ya] = P[i - 1], [xb, yb] = P[i]; return ya + (yb - ya) * (x - xa) / ((xb - xa) || 1); };
-    // past each end, carry on along the surface's own slope (no kink) while easing back to straight
+    // ahead of the nose, ease in from straight along the surface's own slope (no kink)
     const s0 = (at(x0 + 14) - at(x0)) / 14, s1 = (at(x1) - at(x1 - 14)) / 14;
     const fade = (x, e, sl, L) => (at(e) - 64 + sl * (x - e)) * Math.exp(-(((x - e) / L) ** 2));
-    return x => x < x0 ? fade(x, x0, s0, 40) : x > x1 ? fade(x, x1, s1, 60) : at(x) - 64;
+    // behind the trailing edge the flow keeps its slope for a moment, then levels off (stays deflected)
+    const level = x => at(x1) - 64 + s1 * 18 * (1 - Math.exp(-(x - x1) / 18));
+    return x => x < x0 ? fade(x, x0, s0, 40) : x > x1 ? level(x) : at(x) - 64;
   };
   const fu = surf(up), fl = surf(lo);
   for (const k of [-3, -2, -1, 1, 2, 3]) {
