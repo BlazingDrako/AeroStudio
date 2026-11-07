@@ -231,7 +231,7 @@ export function buildScene(id, P) {
     const th = P.angle * DEG * (id === 'corner' ? -1 : 1);
     const L = 4, b = id === 'ramp' ? { x0: -1.6, x1: 4.2, y0: -0.25, y1: 3 } : { x0: -1.6, x1: 4.2, y0: -2.2, y1: 2 };
     const wallY = x => x <= 0 ? 0 : x * Math.tan(th);
-    const bodyPoly = [{ x: b.x0 - 1, y: 0 }, { x: 0, y: 0 }, { x: L + 40, y: (L + 40) * Math.tan(th) }, { x: L + 40, y: b.y0 - 40 }, { x: b.x0 - 1, y: b.y0 - 40 }];
+    const bodyPoly = [{ x: b.x0 - 40, y: 0 }, { x: 0, y: 0 }, { x: L + 40, y: (L + 40) * Math.tan(th) }, { x: L + 40, y: b.y0 - 40 }, { x: b.x0 - 40, y: b.y0 - 40 }];
     R.cfd = { polys: [[{ x: b.x0 - 60, y: 0 }, { x: 0, y: 0 }, { x: 60, y: 60 * Math.tan(th) }, { x: 60, y: -80 }, { x: b.x0 - 60, y: -80 }]] };
     let sample, drawExtra = () => { }, seeds;
     if (sup) {
@@ -293,7 +293,7 @@ export function buildScene(id, P) {
     }
     seeds = () => Array.from({ length: 12 }, (_, i) => ({ x: b.x0 + 1e-3, y: (id === 'ramp' ? 0.05 : -0.0) + 0.02 + (b.y1 - 0.1) * (i + 0.5) / 12 }));
     const drawBody = ctx => {
-      if (!sup) { const Lt = L * Math.tan(th); body(ctx, [{ x: b.x0 - 1, y: 0 }, { x: 0, y: 0 }, { x: L, y: Lt }, { x: b.x1 + 40, y: Lt }, { x: b.x1 + 40, y: b.y0 - 3 }, { x: b.x0 - 1, y: b.y0 - 3 }]); }
+      if (!sup) { const Lt = L * Math.tan(th); body(ctx, [{ x: b.x0 - 40, y: 0 }, { x: 0, y: 0 }, { x: L, y: Lt }, { x: b.x1 + 40, y: Lt }, { x: b.x1 + 40, y: b.y0 - 3 }, { x: b.x0 - 40, y: b.y0 - 3 }]); }
       else body(ctx, bodyPoly);
     };
     return { ...R, scene: {
@@ -315,7 +315,7 @@ export function buildScene(id, P) {
     const N = 400, wx = [], wy = []; let yy = 0;
     for (let i = 0; i <= N; i++) { const x = L * i / N; if (i) yy += Math.tan(0.5 * (thw(x) + thw(L * (i - 1) / N))) * L / N; wx.push(x); wy.push(yy); }
     const yw = x => x <= 0 ? 0 : x >= L ? wy[N] + (x - L) * Math.tan(thT) : wy[Math.round(x / L * N)];
-    const wallShape = [{ x: b.x0 - 1, y: 0 }, ...wx.map((x, i) => ({ x, y: wy[i] })), { x: b.x1 + 40, y: yw(b.x1 + 40) }, { x: b.x1 + 40, y: -40 }, { x: b.x0 - 40, y: -40 }];
+    const wallShape = [{ x: b.x0 - 40, y: 0 }, ...wx.map((x, i) => ({ x, y: wy[i] })), { x: b.x1 + 40, y: yw(b.x1 + 40) }, { x: b.x1 + 40, y: -40 }, { x: b.x0 - 40, y: -40 }];
     R.cfd = { polys: [wallShape] };
     if (!sup) {
       subNote();
@@ -605,8 +605,8 @@ export function buildScene(id, P) {
     R.cfd = { polys: [[{ x: b.x0 - 40, y: 0 }, { x: b.x1 + 40, y: 0 }, { x: b.x1 + 40, y: -40 }, { x: b.x0 - 40, y: -40 }], [{ x: b.x0 - 40, y: H }, { x: xg, y: H }, { x: b.x1 + 40, y: topY(b.x1 + 40) }, { x: b.x1 + 40, y: H + 40 }, { x: b.x0 - 40, y: H + 40 }]] };
     const inkOf = ctx => ctx.fieldOn || ctx.dark ? '#fff' : '#111';
     const walls = ctx => {
-      body(ctx, [{ x: b.x0 - 1, y: 0 }, { x: b.x1 + 40, y: 0 }, { x: b.x1 + 40, y: -1 }, { x: b.x0 - 1, y: -1 }]);
-      body(ctx, [{ x: b.x0 - 1, y: H }, { x: xg, y: H }, { x: b.x1 + 40, y: topY(b.x1 + 40) }, { x: b.x1 + 40, y: H + 1 }, { x: b.x0 - 1, y: H + 1 }]);
+      body(ctx, [{ x: b.x0 - 40, y: 0 }, { x: b.x1 + 40, y: 0 }, { x: b.x1 + 40, y: -1 }, { x: b.x0 - 40, y: -1 }]);
+      body(ctx, [{ x: b.x0 - 40, y: H }, { x: xg, y: H }, { x: b.x1 + 40, y: topY(b.x1 + 40) }, { x: b.x1 + 40, y: H + 1 }, { x: b.x0 - 40, y: H + 1 }]);
     };
     const outside = (x, y) => y < 0 || y > topY(x);
     const spawn = init => { const x = init ? b.x0 + Math.random() * (b.x1 - b.x0) : b.x0 + 0.02; return { x, y: 0.02 + Math.random() * (topY(x) - 0.04) }; };

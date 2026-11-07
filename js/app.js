@@ -147,12 +147,30 @@ function renderHome() {
       h('footer', { class: 'home-credit' }, 'Made by Andrew Aguiar'))));
 }
 
-// The logo plane, large, climbing across the home-page hero (CSS float; still when reduced motion is on)
+// The logo plane, large, climbing across the home-page hero: a flickering exhaust flame and
+// speed streaks rushing past make it look like it is flying (all CSS; still when reduced motion is on)
 const HERO_PLANE_SVG = `<svg viewBox="0 0 300 200">
-  <defs><linearGradient id="hero-plume" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="var(--hl)"/><stop offset="1" stop-color="var(--hl)" stop-opacity="0"/></linearGradient></defs>
+  <defs>
+    <linearGradient id="hero-plume" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="var(--hl)"/><stop offset="1" stop-color="var(--hl)" stop-opacity="0"/></linearGradient>
+    <linearGradient id="hero-core" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#ffe2b8"/><stop offset=".5" stop-color="#ffb36b"/><stop offset="1" stop-color="#ff8a3d" stop-opacity="0"/></linearGradient>
+  </defs>
+  <g transform="translate(166 92) rotate(-34) scale(1.55) translate(-76 -19)">
+    <g class="hp-streaks">
+      <line x1="70" y1="-18" x2="96" y2="-18" style="animation-duration:1.6s;animation-delay:-0.0s"/>
+      <line x1="110" y1="2" x2="144" y2="2" style="animation-duration:1.3s;animation-delay:-0.5s"/>
+      <line x1="95" y1="44" x2="117" y2="44" style="animation-duration:1.8s;animation-delay:-1.1s"/>
+      <line x1="40" y1="-4" x2="58" y2="-4" style="animation-duration:1.5s;animation-delay:-0.8s"/>
+      <line x1="60" y1="52" x2="90" y2="52" style="animation-duration:1.4s;animation-delay:-0.25s"/>
+      <line x1="130" y1="30" x2="154" y2="30" style="animation-duration:1.7s;animation-delay:-1.4s"/>
+      <line x1="120" y1="-26" x2="140" y2="-26" style="animation-duration:1.9s;animation-delay:-0.6s"/>
+      <line x1="20" y1="14" x2="48" y2="14" style="animation-duration:1.5s;animation-delay:-1.7s"/>
+      <line x1="115" y1="60" x2="133" y2="60" style="animation-duration:1.6s;animation-delay:-0.95s"/>
+    </g>
+  </g>
   <g class="hp-float">
     <g transform="translate(166 92) rotate(-34) scale(1.55) translate(-76 -19)">
       <path class="hp-plume" d="M14.4 22.6 L-58 23.9 L-58 25.3 L14.4 26.6 Z"/>
+      <path class="hp-core" d="M14.4 23.3 L-16 24.3 L-16 24.9 L14.4 25.9 Z"/>
       <path class="far" d="M55.7 16.9 L34.6 3.4 L27.3 3.4 L23.3 18.8 Z"/>
       <path d="M43.5 30.0 L38.0 34.4 L33.7 34.4 L32.8 29.5 Z"/>
       <path d="M21.5 21.2 L14.4 22.3 L14.4 26.9 L21.5 27.5 Z"/>

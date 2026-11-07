@@ -306,7 +306,20 @@ export class FieldStage {
     // fade old trails
     tc.globalCompositeOperation = 'destination-in'; tc.fillStyle = `rgba(0,0,0,${Math.pow(0.9, dt * 60)})`; tc.fillRect(0, 0, T.W, T.H);
     tc.globalCompositeOperation = 'source-over';
-    while (this.particles.length < N) { const p = sc.spawn(true); this.particles.push({ ...p, px: p.x, py: p.y, age: Math.random() * (sc.maxAge || 12), wait: 0 }); }
+    // Scenes spawn inflow particles at bounds.x0, but on a wide stage the view shows more flow to the
+    // left of that. Shift inflow spawns to the visible left edge so particles cover the whole picture.
+    const bx0 = sc.bounds.x0, bw = sc.bounds.x1 - bx0, ext = Math.max(0, bx0 - T.wx(0));
+    const spawn = init => {
+      const p = sc.spawn(init);
+      if (ext > 0) {
+        const x = p.x;
+        if (!init) { if (p.x < bx0 + 0.06 * bw) p.x -= ext; }
+        else if (Math.random() < ext / (ext + bw)) p.x = bx0 - ext + Math.random() * ext;
+        if (p.x !== x && !this.vel(p.x, p.y)) p.x = x; // no flow data there (e.g. live CFD domain): keep the scene's spot
+      }
+      return p;
+    };
+    while (this.particles.length < N) { const p = spawn(true); this.particles.push({ ...p, px: p.x, py: p.y, age: Math.random() * (sc.maxAge || 12), wait: 0 }); }
     if (this.particles.length > N) this.particles.length = N;
     const col = onField ? '255,255,255' : (ctx.dark ? '225,230,238' : '30,36,48');
     tc.strokeStyle = `rgba(${col},0.75)`; tc.lineWidth = 1.25; tc.lineCap = 'round'; tc.beginPath();
@@ -315,7 +328,7 @@ export class FieldStage {
       if (p.wait > 0) { p.wait -= dt; continue; } // staggered re-entry so inflow particles don't march as a front
       const v = this.vel(p.x, p.y);
       p.age += dt;
-      if (!v || p.age > (sc.maxAge || 12)) { Object.assign(p, sc.spawn(false)); p.px = p.x; p.py = p.y; p.age = 0; p.wait = Math.random() * 1.2; continue; }
+      if (!v || p.age > (sc.maxAge || 12)) { Object.assign(p, spawn(false)); p.px = p.x; p.py = p.y; p.age = 0; p.wait = Math.random() * 1.2; continue; }
       p.px = p.x; p.py = p.y;
       p.x += v[0] * speed * dt; p.y += v[1] * speed * dt;
       const X0 = T.sx(p.px), Y0 = T.sy(p.py), X = T.sx(p.x), Y = T.sy(p.y);
