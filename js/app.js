@@ -71,10 +71,26 @@ const view = document.getElementById('view');
 const nav = document.getElementById('nav');
 let current = null;
 
+// The B-2 logo, drawn inline (not as an <img>) so its colours come from the theme variables
+// and it follows light/dark and the secret themes. Same drawing as assets/favicon.svg.
+const BRAND_SVG = `<svg viewBox="3 26 94 57" aria-hidden="true">
+<defs><linearGradient id="brand-plume" gradientUnits="userSpaceOnUse" x1="0" y1="62" x2="0" y2="82">
+<stop offset="0" class="bm-plume-a"/><stop offset=".35" class="bm-plume-b"/><stop offset="1" class="bm-plume-c"/></linearGradient></defs>
+<path fill="url(#brand-plume)" d="M36.2 62.5 L43.6 62.5 L42 82 L38 82 Z M56.4 62.5 L63.8 62.5 L62 82 L58 82 Z"/>
+<path class="bm-body" d="M50 30 L5 59.2 L5 66.07 L20.63 55.94 L36.26 66.07 L43.13 61.6 L50 66.07 L56.87 61.6 L63.74 66.07 L79.37 55.94 L95 66.07 L95 59.2 Z"/>
+<path class="bm-spine" d="M45.4 38 L43.4 60.5 M54.6 38 L56.6 60.5"/>
+<path class="bm-intake" d="M44.8 41.6 L37.8 43.6 M55.2 41.6 L62.2 43.6"/>
+<path class="bm-cockpit" d="M47.6 35 L52.4 35 L53.3 36.8 L46.7 36.8 Z"/></svg>`;
+function brandMark() {
+  const el = h('span', { class: 'brand-mark', onclick: flyby });
+  el.innerHTML = BRAND_SVG;
+  return el;
+}
+
 function buildNav() {
   nav.replaceChildren();
   nav.append(h('div', { class: 'brand' },
-    h('img', { class: 'brand-mark', src: 'assets/favicon.svg?v=4', alt: '', width: 32, height: 32, onclick: flyby }),
+    brandMark(),
     h('div', {}, h('div', { class: 'brand-name' }, 'AeroStudio'), h('div', { class: 'brand-sub' }, 'See the physics'))));
   const find = h('button', { class: 'nav-item nav-search', type: 'button', title: `Search modules, concepts and formulas (${searchShortcut()})` }, icon('search'), h('span', { class: 'nav-label' }, 'Search'), h('span', { class: 'kbd' }, searchShortcut()));
   find.addEventListener('click', () => openSearch());

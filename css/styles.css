@@ -76,7 +76,16 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
 .sidebar { background: var(--bg-elev); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 16px 12px 12px; gap: 2px; overflow-y: auto; }
 :root[data-resolved-theme="dark"] .sidebar { background: #0f1218; }
 .brand { display: flex; align-items: center; gap: 10px; padding: 4px 8px 16px; }
-.brand-mark { width: 32px; height: 32px; border-radius: 8px; display: block; flex: none; }
+.brand-mark { width: 44px; height: 27px; display: block; flex: none; cursor: pointer; }
+.brand-mark svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.brand-mark .bm-body { fill: color-mix(in srgb, var(--accent) 40%, transparent); stroke: var(--accent); stroke-width: 3.8; stroke-linejoin: round; }
+.brand-mark .bm-spine, .brand-mark .bm-intake { fill: none; stroke: var(--accent); stroke-linecap: round; }
+.brand-mark .bm-spine { stroke-width: 1.2; opacity: .28; }
+.brand-mark .bm-intake { stroke-width: 2.6; opacity: .8; }
+.brand-mark .bm-cockpit { fill: var(--hl); }
+.brand-mark .bm-plume-a { stop-color: var(--hl); }
+.brand-mark .bm-plume-b { stop-color: var(--hl); stop-opacity: .75; }
+.brand-mark .bm-plume-c { stop-color: var(--hl); stop-opacity: 0; }
 .brand-name { font-weight: 650; font-size: 16px; letter-spacing: -0.02em; }
 .brand-sub { font-size: 11px; color: var(--text-3); }
 .nav-group { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--text-3); padding: 14px 10px 5px; }
