@@ -211,6 +211,7 @@ const PLANE = [ // the logo plane (nose to the right), with fill opacity per par
   ['M21.5 21.2 L14.4 22.3 L14.4 26.9 L21.5 27.5 Z', 1],
   ['M74 23.2 L18 25.6 L12 27.4 L16 27.6 L70 26 Z', .55],
   ['M134.0 23.1 L129.1 21.5 L122.4 19.9 L115.0 18.8 L107.1 18.0 L102.8 16.9 L95.5 16.5 L85.7 16.3 L78.3 15.8 L63.0 16.5 L51.4 16.9 L35.5 17.9 L23.3 19.4 L21.5 20.9 L21.5 27.6 L28.8 29.1 L45.3 30.0 L85.7 30.3 L88.1 29.1 L92.4 26.6 L106.5 26.0 L112.6 26.5 L118.7 26.5 L122.4 25.6 L129.7 24.4 Z', 1],
+  ['M84 23.4 L44 24.2', .85, 'line'], // wing root, where the swept wing meets the body
   ['M52.7 17.1 L31.2 3.0 L23.6 3.0 L19.9 19.7 Z', 1],
 ];
 const GLASS = 'M107.1 18.0 L102.8 14.4 L97.9 12.5 L90.6 11.9 L83.2 12.7 L74.7 15.6 L78.3 15.8 L95.5 16.5 L102.8 16.9 Z';
@@ -226,8 +227,8 @@ export function flyby(e) {
   const g = cv.getContext('2d'), dpr = Math.min(2, devicePixelRatio || 1);
   const W = innerWidth, H = innerHeight;
   cv.width = W * dpr; cv.height = H * dpr;
-  const cssBg = cssVar('--bg-elev'), accent = cssVar('--accent'), soft = cssVar('--accent-soft'), trailCol = cssVar('--text-2'), flame = cssVar('--hl');
-  const paths = PLANE.map(([d, a]) => [new Path2D(d), a]), glass = new Path2D(GLASS);
+  const accent = cssVar('--accent'), soft = cssVar('--accent-soft'), trailCol = cssVar('--text-2'), flame = cssVar('--hl');
+  const paths = PLANE.map(([d, a, kind]) => [new Path2D(d), a, kind]), glass = new Path2D(GLASS);
   const scale = Math.max(0.7, Math.min(1.1, W / 1400));
   const CROSS = 3.2, FADE = 3.6; // seconds to cross, seconds for the contrail to fade
   // a gentle climbing S-curve from off the left edge to off the right edge
@@ -269,8 +270,13 @@ export function flyby(e) {
       g.save(); g.translate(x, y); g.rotate(ang); g.scale(scale, scale); g.translate(-76, -19);
       g.fillStyle = flame; g.globalAlpha = 0.55 + Math.random() * 0.35;
       g.beginPath(); g.moveTo(14.4, 22.8); g.lineTo(-4 - Math.random() * 10, 24.6); g.lineTo(14.4, 26.4); g.fill();
-      g.lineJoin = 'round'; g.lineWidth = 1.6; g.strokeStyle = accent;
-      for (const [p, a] of paths) { g.globalAlpha = a; g.fillStyle = cssBg; g.fill(p); g.fillStyle = soft; g.fill(p); g.stroke(p); }
+      // drawn like the home hero: a see-through body, so the swept wing behind it shows through
+      g.lineJoin = 'round'; g.strokeStyle = accent; g.fillStyle = soft;
+      for (const [p, a, kind] of paths) {
+        g.globalAlpha = a;
+        if (kind === 'line') { g.lineWidth = 1.1; g.stroke(p); continue; }
+        g.lineWidth = 1.6; g.fill(p); g.stroke(p);
+      }
       g.globalAlpha = 1; g.fillStyle = accent; g.globalAlpha = .45; g.fill(glass);
       g.restore();
     }
