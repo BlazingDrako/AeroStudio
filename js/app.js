@@ -13,6 +13,7 @@ import { orbitsModule } from './modules/orbits/index.js';
 import { PREVIEWS } from './previews.js';
 import { watchViews } from './lib/export.js';
 import { initSearch, openSearch, searchShortcut } from './lib/search.js';
+import { loadSkin, setSkin, currentSkin, toggleSkinMenu, initEggs, flyby } from './lib/eggs.js';
 
 // Each module: { id, title, icon, group, status: 'live' | 'planned', blurb, features, mount(root), unmount() }
 const modules = [
@@ -73,7 +74,7 @@ let current = null;
 function buildNav() {
   nav.replaceChildren();
   nav.append(h('div', { class: 'brand' },
-    h('img', { class: 'brand-mark', src: 'assets/favicon.svg?v=3', alt: '', width: 32, height: 32 }),
+    h('img', { class: 'brand-mark', src: 'assets/favicon.svg?v=3', alt: '', width: 32, height: 32, onclick: flyby }),
     h('div', {}, h('div', { class: 'brand-name' }, 'AeroStudio'), h('div', { class: 'brand-sub' }, 'See the physics'))));
   const find = h('button', { class: 'nav-item nav-search', type: 'button', title: `Search modules, concepts and formulas (${searchShortcut()})` }, icon('search'), h('span', { class: 'nav-label' }, 'Search'), h('span', { class: 'kbd' }, searchShortcut()));
   find.addEventListener('click', () => openSearch());
@@ -86,12 +87,18 @@ function buildNav() {
   }
   const themeBtn = h('button', { class: 'nav-item', type: 'button' });
   const paintTheme = () => { const dark = resolvedTheme() === 'dark'; themeBtn.replaceChildren(icon(dark ? 'sun' : 'moon'), h('span', { class: 'nav-label' }, dark ? 'Light theme' : 'Dark theme')); };
-  themeBtn.addEventListener('click', () => { setTheme(resolvedTheme() === 'dark' ? 'light' : 'dark'); paintTheme(); });
+  // shift-click opens the secret themes; a plain click leaves any secret theme and flips light/dark
+  themeBtn.addEventListener('click', e => {
+    if (e.shiftKey) { toggleSkinMenu(themeBtn, id => { setSkin(id); applyTheme(); paintTheme(); }); return; }
+    if (currentSkin()) { setSkin(''); setTheme('light'); } else setTheme(resolvedTheme() === 'dark' ? 'light' : 'dark');
+    paintTheme();
+  });
   paintTheme();
   nav.append(h('div', { class: 'sidebar-foot' }, themeBtn, h('div', { class: 'sidebar-credit' }, 'Made by Andrew Aguiar')));
 }
 
 function resolvedTheme() {
+  if (currentSkin()) return 'dark'; // the secret themes are all drawn on top of dark mode
   const t = document.documentElement.dataset.theme;
   if (t === 'light' || t === 'dark') return t;
   return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -99,6 +106,9 @@ function resolvedTheme() {
 function setTheme(t) {
   document.documentElement.dataset.theme = t;
   try { localStorage.setItem('aerostudio-theme', t); } catch { }
+  applyTheme();
+}
+function applyTheme() {
   document.documentElement.dataset.resolvedTheme = resolvedTheme();
   dispatchEvent(new Event('themechange'));
 }
@@ -192,9 +202,11 @@ function renderPlanned(m) {
 }
 
 try { const t = localStorage.getItem('aerostudio-theme'); if (t) document.documentElement.dataset.theme = t; } catch { }
+loadSkin();
 document.documentElement.dataset.resolvedTheme = resolvedTheme();
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { document.documentElement.dataset.resolvedTheme = resolvedTheme(); dispatchEvent(new Event('themechange')); });
 buildNav();
+initEggs();
 document.body.append(h('footer', { class: 'made-by' }, 'Made by Andrew Aguiar'));
 addEventListener('hashchange', route);
 watchViews(view);

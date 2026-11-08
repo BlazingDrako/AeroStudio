@@ -170,7 +170,7 @@ input[type=range]:hover::-webkit-slider-thumb, input[type=range]:focus-visible::
 .status.ok { color: var(--good); background: color-mix(in srgb, var(--good) 12%, transparent); }
 .status .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-3); }
 .status.ok .dot { background: var(--good); }
-.status.busy .dot { background: var(--accent); animation: pulse 1s infinite; }
+.status.busy .dot { background: none; border-radius: 0; animation: none; } /* a propeller, see 'Busy spinner' at the end */
 .status.bad .dot { background: var(--bad); }
 @keyframes pulse { 50% { opacity: .3; } }
 
@@ -575,6 +575,7 @@ tr.st-sum td { font-weight: 600; border-top: 1px solid var(--border-strong); }
 .st-fea[data-tool=outline] canvas, .st-fea[data-tool=hole] canvas, .st-fea[data-tool=probe] canvas { cursor: crosshair; }
 .st-busy { position: absolute; right: 12px; top: 12px; z-index: 4; font-size: 12px; padding: 4px 9px; border-radius: 7px; background: var(--bg-elev); border: 1px solid var(--border); color: var(--text-2); opacity: 0; transition: opacity .2s; pointer-events: none; }
 .st-busy.show { opacity: 1; }
+.st-busy { display: inline-flex; align-items: center; gap: 6px; }
 .st-cgrad { width: 240px; height: 10px; border-radius: 3px; margin: 4px 0 2px; }
 .st-cbar .ticks { width: 240px; }
 .st-bcrow { border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; margin-bottom: 6px; display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
@@ -915,3 +916,162 @@ select.select.fl-psel { width: auto; max-width: 220px; padding: 3px 6px; font-si
 
 /* Orbital Mechanics: let the small line under each metric wrap instead of running into the next card */
 .orb-mod .metric .s { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.35; }
+
+
+/* ---------- Busy spinner: a propeller that becomes a jet fan when a solve runs long ---------- */
+.status.busy .dot, .spin-prop { position: relative; width: 12px; height: 12px; flex: none; display: inline-block; }
+.status.busy .dot::before, .status.busy .dot::after, .spin-prop::before, .spin-prop::after {
+  content: ""; position: absolute; inset: 0; background: var(--accent);
+  -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; }
+.status.busy .dot::before, .spin-prop::before { --m: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-12 -12 24 24'><path d='M-1.7 -1.5 C-2.6 -6 -1.8 -10.6 0 -11.2 C1.8 -10.6 2.4 -6 1.7 -1.5 Z'/><path transform='rotate(120)' d='M-1.7 -1.5 C-2.6 -6 -1.8 -10.6 0 -11.2 C1.8 -10.6 2.4 -6 1.7 -1.5 Z'/><path transform='rotate(240)' d='M-1.7 -1.5 C-2.6 -6 -1.8 -10.6 0 -11.2 C1.8 -10.6 2.4 -6 1.7 -1.5 Z'/><circle r='2.6'/></svg>"); animation: egg-spin .45s linear infinite, egg-out .35s 3s forwards; }
+.status.busy .dot::after, .spin-prop::after { --m: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-12 -12 24 24'><circle r='11' fill='none' stroke='black' stroke-width='1.5'/><path transform='rotate(0)' d='M-0.9 -3.2 C-2.9 -5.6 -2.6 -8.4 -1.2 -10.1 L1 -10.1 C0.4 -7.6 1 -5.4 1.3 -3.2 Z'/><path transform='rotate(36)' d='M-0.9 -3.2 C-2.9 -5.6 -2.6 -8.4 -1.2 -10.1 L1 -10.1 C0.4 -7.6 1 -5.4 1.3 -3.2 Z'/><path transform='rotate(72)' d='M-0.9 -3.2 C-2.9 -5.6 -2.6 -8.4 -1.2 -10.1 L1 -10.1 C0.4 -7.6 1 -5.4 1.3 -3.2 Z'/><path transform='rotate(108)' d='M-0.9 -3.2 C-2.9 -5.6 -2.6 -8.4 -1.2 -10.1 L1 -10.1 C0.4 -7.6 1 -5.4 1.3 -3.2 Z'/><path transform='rotate(144)' d='M-0.9 -3.2 C-2.9 -5.6 -2.6 -8.4 -1.2 -10.1 L1 -10.1 C0.4 -7.6 1 -5.4 1.3 -3.2 Z'/><path transform='rotate(180)' d='M-0.9 -3.2 C-2.9 -5.6 -2.6 -8.4 -1.2 -10.1 L1 -10.1 C0.4 -7.6 1 -5.4 1.3 -3.2 Z'/><path transform='rotate(216)' d='M-0.9 -3.2 C-2.9 -5.6 -2.6 -8.4 -1.2 -10.1 L1 -10.1 C0.4 -7.6 1 -5.4 1.3 -3.2 Z'/><path transform='rotate(252)' d='M-0.9 -3.2 C-2.9 -5.6 -2.6 -8.4 -1.2 -10.1 L1 -10.1 C0.4 -7.6 1 -5.4 1.3 -3.2 Z'/><path transform='rotate(288)' d='M-0.9 -3.2 C-2.9 -5.6 -2.6 -8.4 -1.2 -10.1 L1 -10.1 C0.4 -7.6 1 -5.4 1.3 -3.2 Z'/><path transform='rotate(324)' d='M-0.9 -3.2 C-2.9 -5.6 -2.6 -8.4 -1.2 -10.1 L1 -10.1 C0.4 -7.6 1 -5.4 1.3 -3.2 Z'/><circle r='3.6'/></svg>"); opacity: 0; transform: scale(.6); animation: egg-spin .3s linear infinite, egg-in .35s 3s forwards; }
+@keyframes egg-spin { to { rotate: 360deg; } }
+@keyframes egg-out { to { opacity: 0; scale: .5; } }
+@keyframes egg-in { to { opacity: 1; transform: scale(1.12); } }
+@media (prefers-reduced-motion: reduce) {
+  .status.busy .dot::before, .spin-prop::before { animation: egg-out .35s 3s forwards; }
+  .status.busy .dot::after, .spin-prop::after { animation: egg-in .35s 3s forwards; }
+}
+
+/* ---------- Logo flyby ---------- */
+.flyby { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 960; pointer-events: none; }
+
+/* ---------- Secret themes (shift-click the theme button) ---------- */
+.skin-menu { position: fixed; z-index: 970; width: 248px; padding: 6px; background: var(--bg-elev); border: 1px solid var(--border-strong); border-radius: var(--radius); box-shadow: var(--shadow-lg); animation: skin-pop .16s ease-out; }
+@keyframes skin-pop { from { opacity: 0; transform: translateY(4px) scale(.98); } }
+.skin-head { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-3); padding: 6px 8px 4px; }
+.skin-opt { display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 8px; border: 0; border-radius: var(--radius-sm); background: none; text-align: left; cursor: pointer; }
+.skin-opt:hover, .skin-opt:focus-visible { background: var(--bg-sunk); outline: none; }
+.skin-opt.on { background: var(--accent-soft); }
+.skin-txt { display: flex; flex-direction: column; min-width: 0; }
+.skin-txt b { font-weight: 600; font-size: 13px; }
+.skin-txt span { font-size: 11px; color: var(--text-3); }
+.skin-swatch { width: 30px; height: 30px; border-radius: 7px; flex: none; border: 1px solid rgba(255, 255, 255, .12); }
+.skin-swatch[data-swatch="hud"] { background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, .35) 2px 3px), radial-gradient(circle at 50% 50%, transparent 5px, #39ff6a 5px 6.5px, transparent 7px), linear-gradient(#39ff6a, #39ff6a) center / 20px 1.5px no-repeat, #021006; }
+.skin-swatch[data-swatch="blueprint"] { background: linear-gradient(rgba(255, 255, 255, .25) 1px, transparent 1px) 0 0 / 6px 6px, linear-gradient(90deg, rgba(255, 255, 255, .25) 1px, transparent 1px) 0 0 / 6px 6px, #134a8e; }
+.skin-swatch[data-swatch="mission"] { background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, .4) 2px 3px), radial-gradient(circle, #ffb000 0 1.5px, transparent 2px) 4px 6px / 8px 8px, #140f06; }
+.skin-swatch[data-swatch="standard"] { background: linear-gradient(135deg, #f2f4f7 50%, #0b0d11 50%); border-color: var(--border-strong); }
+
+.skin-fx { position: fixed; inset: 0; z-index: 940; pointer-events: none; }
+:root[data-skin] .seg button.on, :root[data-skin] .btn.primary, :root[data-skin] .st-tool.on { color: var(--bg); }
+
+/* HUD: phosphor green on black, everything in a mono font, scan lines and a faint pitch ladder */
+:root[data-skin="hud"] {
+  --bg: #010803; --bg-elev: #03120a; --bg-sunk: #020d06; --stage: #010603;
+  --border: #0f3a1c; --border-strong: #1d6a33;
+  --text: #8dffa8; --text-2: #52d975; --text-3: #31994d;
+  --accent: #39ff6a; --accent-soft: rgba(57, 255, 106, 0.12);
+  --hl: #d4ff4f; --hl-soft: rgba(212, 255, 79, 0.13); --glow: rgba(57, 255, 106, 0.12);
+  --upper: #39ff6a; --lower: #d4ff4f; --wake: #31994d;
+  --good: #39ff6a; --warn: #ffd84f; --bad: #ff5a4f;
+  --lam: #4fffd2; --turb: #b6ff4f; --sep: #ff5a4f;
+  --shadow: 0 0 0 1px rgba(57, 255, 106, .06); --shadow-lg: 0 0 0 1px rgba(57, 255, 106, .15), 0 12px 32px rgba(0, 0, 0, .6);
+  --radius: 3px; --radius-sm: 2px;
+  --font: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+:root[data-skin="hud"] body { text-shadow: 0 0 6px rgba(57, 255, 106, .35); }
+:root[data-skin="hud"] .sidebar, :root[data-skin="hud"] .af-controls { background: var(--bg-elev); }
+:root[data-skin="hud"] .skin-fx { background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, .22) 2px 3px); }
+.skin-fx svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.skin-fx svg * { fill: none; stroke: #39ff6a; stroke-width: 2; }
+.skin-fx svg text { fill: #39ff6a; stroke: none; font: 600 15px "JetBrains Mono", monospace; }
+.skin-fx svg .hud-ladder { opacity: .09; animation: hud-drift 14s ease-in-out infinite; }
+.skin-fx svg .hud-tape, .skin-fx svg .hud-box { opacity: .15; }
+.skin-fx svg .hud-fpm { opacity: .14; animation: hud-fpm 9s ease-in-out infinite; }
+.skin-fx svg .hud-tape path:last-child { fill: #39ff6a; stroke: none; }
+@keyframes hud-drift { 0%, 100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-18px) rotate(-2.5deg); } 65% { transform: translateY(12px) rotate(2deg); } }
+@keyframes hud-fpm { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(6px, -8px); } }
+
+/* Blueprint: white linework on cyanotype blue with a drafting grid and a title block */
+:root[data-skin="blueprint"] {
+  --bg: #0f3d7a; --bg-elev: #134887; --bg-sunk: #0c3469; --stage: #0e3a74;
+  --border: #3f70ac; --border-strong: #82a8d8;
+  --text: #f4f8ff; --text-2: #c6d8f2; --text-3: #92b2dc;
+  --accent: #ffffff; --accent-soft: rgba(255, 255, 255, 0.14);
+  --hl: #ffd166; --hl-soft: rgba(255, 209, 102, 0.16); --glow: rgba(255, 255, 255, 0.1);
+  --upper: #ffffff; --lower: #ffd166; --wake: #92b2dc;
+  --good: #8cf0b0; --warn: #ffd166; --bad: #ff8a80;
+  --lam: #8ff0e6; --turb: #d2b8ff; --sep: #ff8a80;
+  --shadow: none; --shadow-lg: 0 12px 32px rgba(3, 18, 40, .5);
+  --radius: 2px; --radius-sm: 2px;
+  color-scheme: dark;
+}
+:root[data-skin="blueprint"] body, :root[data-skin="blueprint"] main#view {
+  background-color: var(--bg);
+  background-image: linear-gradient(rgba(255, 255, 255, .13) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .13) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .05) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+}
+:root[data-skin="blueprint"] .sidebar, :root[data-skin="blueprint"] .af-controls { background: var(--bg-elev); }
+:root[data-skin="blueprint"] h1, :root[data-skin="blueprint"] h2, :root[data-skin="blueprint"] h3, :root[data-skin="blueprint"] .brand-name { text-transform: uppercase; letter-spacing: .06em; font-family: var(--mono); font-weight: 500; }
+.bp-title { position: absolute; right: 14px; bottom: 14px; width: 330px; border: 1.5px solid #fff; background: #134887; color: #f4f8ff; font: 500 10px/1.25 "JetBrains Mono", monospace; letter-spacing: .04em; opacity: .94; }
+.bp-row { display: flex; justify-content: space-between; gap: 8px; padding: 4px 7px; border-top: 1px solid rgba(255, 255, 255, .7); }
+.bp-row:first-child { border-top: 0; }
+.bp-big { font-size: 13px; font-weight: 700; letter-spacing: .12em; }
+.bp-big span:last-child { font-size: 10px; font-weight: 500; letter-spacing: .04em; align-self: center; }
+.bp-k { color: #92b2dc; }
+.bp-cells { padding: 0; }
+.bp-cells span { flex: 1; padding: 3px 6px; border-left: 1px solid rgba(255, 255, 255, .7); white-space: nowrap; }
+.bp-cells span:first-child { border-left: 0; }
+.bp-cells i { display: block; font-style: normal; font-size: 8px; color: #92b2dc; }
+
+/* Mission Control: amber phosphor, teletype lettering, CRT scan lines, vignette and a mission clock */
+:root[data-skin="mission"] {
+  --bg: #0b0905; --bg-elev: #15110a; --bg-sunk: #0f0c07; --stage: #090704;
+  --border: #3a2c12; --border-strong: #6b5020;
+  --text: #ffbf3f; --text-2: #dda036; --text-3: #b8862e;
+  --accent: #ffb000; --accent-soft: rgba(255, 176, 0, 0.13);
+  --hl: #ff6b35; --hl-soft: rgba(255, 107, 53, 0.14); --glow: rgba(255, 176, 0, 0.12);
+  --upper: #ffb000; --lower: #ff6b35; --wake: #a0711f;
+  --good: #b8e04a; --warn: #ffd23f; --bad: #ff4d3a;
+  --lam: #ffd98a; --turb: #ff9f6b; --sep: #ff4d3a;
+  --shadow: 0 0 0 1px rgba(255, 176, 0, .05); --shadow-lg: 0 0 0 1px rgba(255, 176, 0, .15), 0 12px 32px rgba(0, 0, 0, .6);
+  --radius: 4px; --radius-sm: 3px;
+  --font: "Courier New", Courier, "Nimbus Mono PS", monospace;
+  --mono: "Courier New", Courier, "Nimbus Mono PS", monospace;
+  color-scheme: dark;
+}
+:root[data-skin="mission"] body { text-shadow: 0 0 5px rgba(255, 176, 0, .4); }
+:root[data-skin="mission"] .sidebar, :root[data-skin="mission"] .af-controls { background: var(--bg-elev); }
+:root[data-skin="mission"] h1, :root[data-skin="mission"] h2, :root[data-skin="mission"] h3, :root[data-skin="mission"] .nav-item, :root[data-skin="mission"] .brand-name, :root[data-skin="mission"] .tabs button { text-transform: uppercase; letter-spacing: .05em; font-weight: 700; }
+:root[data-skin="mission"] .skin-fx { background: repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, .25) 2px 3px); animation: crt-flicker 7s steps(1) infinite; }
+.mc-vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, .55) 100%); }
+.mc-met { position: absolute; right: 14px; bottom: 12px; padding: 5px 10px; border: 1px solid #6b5020; background: #0f0c07; color: #ffbf3f; font: 700 13px "Courier New", Courier, monospace; letter-spacing: .08em; text-shadow: 0 0 6px rgba(255, 176, 0, .6); }
+.mc-met span { color: #a0711f; }
+@keyframes crt-flicker { 0%, 100% { opacity: 1; } 41% { opacity: .82; } 42% { opacity: 1; } 77% { opacity: .9; } 78% { opacity: 1; } }
+
+/* HUD: the flight path marker is the one clickable part; it locks a target box onto the nearest view */
+.skin-fx svg .hud-fpm { pointer-events: all; cursor: crosshair; }
+.skin-fx svg .hud-hit { fill: transparent; stroke: none; }
+.skin-fx svg .hud-fpm:hover { opacity: .5; }
+.hud-lock { position: fixed; z-index: 945; pointer-events: none; color: #39ff6a; transition: opacity .35s; filter: drop-shadow(0 0 4px rgba(57, 255, 106, .6)); }
+.hud-lock i { position: absolute; width: 18px; height: 18px; border: 2px solid currentColor; }
+.hud-lock i:nth-child(1) { left: 0; top: 0; border-right: 0; border-bottom: 0; }
+.hud-lock i:nth-child(2) { right: 0; top: 0; border-left: 0; border-bottom: 0; }
+.hud-lock i:nth-child(3) { left: 0; bottom: 0; border-right: 0; border-top: 0; }
+.hud-lock i:nth-child(4) { right: 0; bottom: 0; border-left: 0; border-top: 0; }
+.hud-lock b, .hud-lock span { position: absolute; font: 700 12px "JetBrains Mono", monospace; letter-spacing: .1em; white-space: nowrap; background: rgba(1, 8, 3, .75); padding: 1px 5px; }
+.hud-lock b { left: 0; top: -22px; opacity: 0; }
+.hud-lock span { right: 0; bottom: -22px; opacity: 0; font-weight: 500; }
+.hud-lock.locked b { animation: hud-blink .18s steps(1) 6 forwards; }
+.hud-lock.locked span { opacity: 1; }
+.hud-lock.locked i { animation: hud-pulse 1.2s ease-in-out infinite; }
+.hud-lock.gone { opacity: 0; }
+@keyframes hud-blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes hud-pulse { 50% { opacity: .55; } }
+.hud-lockflash { position: fixed; z-index: 945; pointer-events: none; transform: translateX(-50%); color: #39ff6a; font: 800 22px "JetBrains Mono", monospace; letter-spacing: .3em; text-shadow: 0 0 10px rgba(57, 255, 106, .8); animation: hud-flash .9s steps(1) forwards; }
+@keyframes hud-flash { 0%, 30%, 60% { opacity: 1; } 15%, 45% { opacity: 0; } 85% { opacity: 1; } 100% { opacity: 0; } }
+
+/* Mission Control: click the mission clock for the go/no-go poll */
+.mc-met { pointer-events: auto; cursor: pointer; user-select: none; }
+.mc-met:hover { border-color: #ffb000; }
+.mc-poll { position: absolute; right: 14px; bottom: 50px; width: min(400px, calc(100vw - 28px)); border: 1px solid #6b5020; background: rgba(15, 12, 7, .96); color: #ffbf3f; box-shadow: 0 12px 32px rgba(0, 0, 0, .6); text-shadow: 0 0 6px rgba(255, 176, 0, .5); transition: opacity .45s; }
+.mc-poll-head { font: 700 10.5px "Courier New", Courier, monospace; letter-spacing: .12em; color: #b8862e; padding: 5px 10px; border-bottom: 1px solid #3a2c12; }
+.mc-poll pre { margin: 0; padding: 8px 10px 10px; font: 700 13px/1.5 "Courier New", Courier, monospace; white-space: pre-wrap; min-height: 4.5em; }
+.mc-poll.final pre { color: #ffd23f; }
+.mc-poll.gone { opacity: 0; }
+.mc-cursor { display: inline-block; width: .6em; height: 1.05em; margin-left: 1px; vertical-align: text-bottom; background: currentColor; animation: pv-blink 1s steps(1) infinite; }
+
+@media (prefers-reduced-motion: reduce) { .skin-fx, .skin-fx svg * { animation: none !important; } }
+@media (max-width: 700px) { .bp-title { display: none; } .skin-fx svg .hud-box { display: none; } }

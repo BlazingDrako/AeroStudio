@@ -204,9 +204,10 @@ export async function printReport({ title, controls, results }) {
   // current colours, so the switch to light and back happens out of sight.
   const shell = reportShell(title);
   await new Promise(r => setTimeout(r, 40)); // let the cover paint
-  const root = document.documentElement, prev = { theme: root.dataset.theme, resolved: root.dataset.resolvedTheme };
+  const root = document.documentElement, prev = { theme: root.dataset.theme, resolved: root.dataset.resolvedTheme, skin: root.dataset.skin };
   const dark = prev.resolved === 'dark';
   if (dark) {
+    delete root.dataset.skin; // a secret theme (HUD, Blueprint…) is drawn on dark mode, so it goes too
     root.dataset.theme = 'light'; root.dataset.resolvedTheme = 'light'; dispatchEvent(new Event('themechange'));
     await new Promise(r => setTimeout(r, 350));
   }
@@ -217,6 +218,7 @@ export async function printReport({ title, controls, results }) {
   } finally {
     if (dark) {
       if (prev.theme) root.dataset.theme = prev.theme; else delete root.dataset.theme;
+      if (prev.skin) root.dataset.skin = prev.skin;
       root.dataset.resolvedTheme = prev.resolved; dispatchEvent(new Event('themechange'));
     }
   }

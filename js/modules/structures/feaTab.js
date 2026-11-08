@@ -152,7 +152,7 @@ export function feaTab({ keep = o => o } = {}) {
   // ---------------------------------------------------------------- canvas
   const stage = h('div', { class: 'stage st-stage st-fea', tabindex: 0 });
   const cv = h('canvas'), ctx = cv.getContext('2d');
-  const readout = h('div', { class: 'readout' }), legend = h('div', { class: 'legend st-cbar' }), busy = h('div', { class: 'st-busy' }, 'Solving…');
+  const readout = h('div', { class: 'readout' }), legend = h('div', { class: 'legend st-cbar' }), busy = h('div', { class: 'st-busy' }, h('span', { class: 'spin-prop' }), 'Solving…');
   const toolbar = h('div', { class: 'st-tools' });
   stage.append(cv, toolbar, readout, legend, busy);
   const TOOLS = [
@@ -385,7 +385,11 @@ export function feaTab({ keep = o => o } = {}) {
   stage.addEventListener('keydown', e => { if (e.key === 'Escape') { draft = st.tool === 'outline' ? [] : null; dragHole = null; draw(); } });
   new ResizeObserver(() => { if (!view) fitView(); draw(); }).observe(stage);
   addEventListener('themechange', draw);
-  function showBusy() { busy.classList.toggle('show', solving); }
+  function showBusy() {
+    // a fresh propeller each time it appears, so it only turns into a jet fan on a long solve
+    if (solving && !busy.classList.contains('show')) busy.firstChild.replaceWith(h('span', { class: 'spin-prop' }));
+    busy.classList.toggle('show', solving);
+  }
 
   // ---------------------------------------------------------------- results
   const metrics = metricsGrid();
