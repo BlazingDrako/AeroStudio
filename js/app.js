@@ -74,7 +74,7 @@ let current = null;
 function buildNav() {
   nav.replaceChildren();
   nav.append(h('div', { class: 'brand' },
-    h('img', { class: 'brand-mark', src: 'assets/favicon.svg?v=3', alt: '', width: 32, height: 32, onclick: flyby }),
+    h('img', { class: 'brand-mark', src: 'assets/favicon.svg?v=4', alt: '', width: 32, height: 32, onclick: flyby }),
     h('div', {}, h('div', { class: 'brand-name' }, 'AeroStudio'), h('div', { class: 'brand-sub' }, 'See the physics'))));
   const find = h('button', { class: 'nav-item nav-search', type: 'button', title: `Search modules, concepts and formulas (${searchShortcut()})` }, icon('search'), h('span', { class: 'nav-label' }, 'Search'), h('span', { class: 'kbd' }, searchShortcut()));
   find.addEventListener('click', () => openSearch());

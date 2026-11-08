@@ -2,7 +2,8 @@
 // - Secret themes: shift-click the theme button for HUD, Blueprint and Mission Control. A secret theme
 //   sits on top of dark mode (data-skin on <html>), so canvases keep their dark drawing and plots pick up
 //   the new colours from the CSS variables.
-// - Logo flyby: click the logo in the top left and the plane crosses the screen, leaving a contrail.
+// - Logo flyby: click the logo in the top left and either the jet crosses the screen leaving a contrail,
+//   or the B-2 makes a slow, straight stealth pass that a radar sweep fails to pick up (50/50).
 import { h, cssVar } from './ui.js';
 
 export const SKINS = [
@@ -218,6 +219,7 @@ let flying = false;
 export function flyby(e) {
   if (flying || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if (e?.shiftKey) return launch();
+  if (Math.random() < 0.5) return bomber();
   flying = true;
   const cv = h('canvas', { class: 'flyby', 'aria-hidden': 'true' });
   document.body.append(cv);
@@ -272,6 +274,97 @@ export function flyby(e) {
       g.globalAlpha = 1; g.fillStyle = accent; g.globalAlpha = .45; g.fill(glass);
       g.restore();
     }
+    if (t < CROSS + FADE) requestAnimationFrame(frame);
+    else { cv.remove(); flying = false; }
+  };
+  requestAnimationFrame(frame);
+}
+
+// ---------- the B-2 pass ----------
+// Seen from above (like the logo): a slow, dead-straight pass with a ground shadow and twin contrails.
+// A radar ring sweeps out across the screen and the bomber all but vanishes as the ring crosses it.
+const B2 = 'M50 30 L5 59.2 L5 66.07 L20.63 55.94 L36.26 66.07 L43.13 61.6 L50 66.07 L56.87 61.6 L63.74 66.07 L79.37 55.94 L95 66.07 L95 59.2 Z';
+const B2_LINES = 'M45.4 38 L43.4 60.5 M54.6 38 L56.6 60.5 M44.8 41.6 L37.8 43.6 M55.2 41.6 L62.2 43.6';
+const B2_COCKPIT = 'M47.6 35 L52.4 35 L53.3 36.8 L46.7 36.8 Z';
+const B2_ENGINES = [[39.9, 63], [60.1, 63]]; // exhaust points, in the same units as the outline
+const B2_MID = [50, 48]; // turn the drawing about this point
+
+function bomber() {
+  flying = true;
+  const cv = h('canvas', { class: 'flyby', 'aria-hidden': 'true' });
+  document.body.append(cv);
+  const g = cv.getContext('2d'), dpr = Math.min(2, devicePixelRatio || 1);
+  const W = innerWidth, H = innerHeight;
+  cv.width = W * dpr; cv.height = H * dpr;
+  const bg = cssVar('--bg-elev'), accent = cssVar('--accent'), soft = cssVar('--accent-soft'), trailCol = cssVar('--text-2'), shade = cssVar('--text'), flame = cssVar('--hl');
+  const body = new Path2D(B2), lines = new Path2D(B2_LINES), cockpit = new Path2D(B2_COCKPIT);
+  const sc = Math.max(0.9, Math.min(1.6, W / 1000)); // outline units to pixels (about 90-145 px wingspan)
+  const CROSS = 6, FADE = 3.4; // a heavy bomber: twice as long on screen as the jet
+  // straight line, either direction, gently up or down
+  const dir = Math.random() < 0.5 ? 1 : -1, m = 140 * sc;
+  const ya = H * (0.3 + Math.random() * 0.45), yb = H * (0.25 + Math.random() * 0.5);
+  const xa = dir > 0 ? -m : W + m, xb = dir > 0 ? W + m : -m;
+  const ang = Math.atan2(yb - ya, xb - xa), rot = ang + Math.PI / 2; // the drawing's nose points up
+  const cos = Math.cos(rot) * sc, sin = Math.sin(rot) * sc;
+  const toWorld = (px, py, x, y) => [x + cos * (px - B2_MID[0]) - sin * (py - B2_MID[1]), y + sin * (px - B2_MID[0]) + cos * (py - B2_MID[1])];
+  const pos = u => [xa + (xb - xa) * u, ya + (yb - ya) * u];
+  // radar: a ring grows from a point near the middle of its path and sweeps past it
+  const [rx, ry] = pos(0.35 + Math.random() * 0.3);
+  const rcx = rx + (Math.random() - .5) * W * 0.5, rcy = ry + (Math.random() < .5 ? -1 : 1) * H * (0.25 + Math.random() * 0.2);
+  const R_START = CROSS * 0.3, R_SPEED = Math.hypot(W, H) / 2.6, BAND = 70 * sc;
+  const shadow = { dx: 26 * sc, dy: 40 * sc };
+  const trails = [[], []];
+  let lastU = 0;
+  const t0 = performance.now();
+  const frame = now => {
+    const t = (now - t0) / 1000, u = Math.min(1, t / CROSS);
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.clearRect(0, 0, W, H);
+    const [x, y] = pos(u);
+    for (let v = lastU + 0.002; lastU < 1 && v <= u + 1e-9; v += 0.002) {
+      const [px, py] = pos(Math.min(v, 1));
+      B2_ENGINES.forEach(([ex, ey], i) => { const [wx, wy] = toWorld(ex, ey, px, py); trails[i].push({ x: wx, y: wy, t: v * CROSS }); });
+      lastU = v;
+    }
+    // radar ring
+    const rr = (t - R_START) * R_SPEED;
+    if (rr > 0) {
+      const ra = Math.max(0, 1 - rr / Math.hypot(W, H));
+      g.globalAlpha = 0.5 * ra; g.strokeStyle = accent; g.lineWidth = 1.5;
+      g.beginPath(); g.arc(rcx, rcy, rr, 0, Math.PI * 2); g.stroke();
+      g.globalAlpha = 0.08 * ra; g.lineWidth = BAND * 0.6;
+      g.beginPath(); g.arc(rcx, rcy, Math.max(0, rr - BAND * 0.3), 0, Math.PI * 2); g.stroke();
+    }
+    // twin contrails: thin and tidy, then spreading and fading
+    g.strokeStyle = trailCol; g.lineJoin = 'round'; g.lineCap = 'butt';
+    for (const tr of trails) for (let i = 0; i < tr.length - 1; i += 6) {
+      const run = tr.slice(i, i + 7), age = t - run[run.length >> 1].t;
+      const a = Math.min(1, age / 0.35) * Math.max(0, 1 - age / FADE);
+      if (a <= 0) continue;
+      g.globalAlpha = 0.32 * a; g.lineWidth = (1.2 + age * 2.6) * sc;
+      g.beginPath(); g.moveTo(run[0].x, run[0].y);
+      for (const q of run) g.lineTo(q.x, q.y);
+      g.stroke();
+    }
+    if (u < 1) {
+      // stealth: fades to almost nothing while the radar ring passes over it
+      const off = rr > 0 ? Math.abs(Math.hypot(x - rcx, y - rcy) - rr) : Infinity;
+      const vis = 0.1 + 0.9 * Math.min(1, off / BAND);
+      const place = (ox, oy) => { g.setTransform(dpr, 0, 0, dpr, 0, 0); g.translate(x + ox, y + oy); g.rotate(rot); g.scale(sc, sc); g.translate(-B2_MID[0], -B2_MID[1]); };
+      place(shadow.dx, shadow.dy);
+      g.globalAlpha = 0.1 * vis; g.fillStyle = shade; g.fill(body);
+      place(0, 0);
+      g.globalAlpha = (0.5 + Math.random() * 0.3) * vis; g.fillStyle = flame;
+      for (const [ex, ey] of B2_ENGINES) {
+        g.beginPath(); g.moveTo(ex - 2.4, ey); g.lineTo(ex, ey + 6 + Math.random() * 6); g.lineTo(ex + 2.4, ey); g.fill();
+      }
+      g.lineJoin = 'round'; g.lineCap = 'round'; g.strokeStyle = accent;
+      g.globalAlpha = vis; g.fillStyle = bg; g.fill(body); g.fillStyle = soft; g.fill(body);
+      g.lineWidth = 2.2; g.stroke(body);
+      g.globalAlpha = 0.45 * vis; g.lineWidth = 1.4; g.stroke(lines);
+      g.globalAlpha = vis; g.fillStyle = flame; g.fill(cockpit);
+    }
+    g.globalAlpha = 1;
     if (t < CROSS + FADE) requestAnimationFrame(frame);
     else { cv.remove(); flying = false; }
   };
