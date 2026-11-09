@@ -169,6 +169,13 @@ input[type=range]:hover::-webkit-slider-thumb, input[type=range]:focus-visible::
 .af-main { display: flex; flex-direction: column; min-width: 0; overflow-y: auto; padding: 14px 16px 16px; gap: 12px; }
 .af-side { overflow-y: auto; border-left: 1px solid var(--border); background: var(--bg-elev); }
 .af-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+/* every module's tabs sit on their own row, left-aligned under the title, so they never move when a tab changes the
+   title, subtitle or status beside them */
+.af-head > .tabs { order: 10; margin-left: 0; }
+.af-head:has(> .tabs) { row-gap: 5px; }   /* the line break below counts as a row: two gaps, 10px in all */
+.af-head .af-sub:empty::before { content: '\00a0'; }   /* an empty subtitle still holds its line */
+.af-head:has(> .tabs) > div:first-child { flex: 1 1 260px; min-width: 0; }   /* the title gives way, so the toolbar stays on the first row */
+.af-head:has(> .tabs)::after { content: ''; order: 9; flex-basis: 100%; height: 0; }
 .af-title { font-size: 19px; font-weight: 650; letter-spacing: -0.02em; }
 .af-sub { color: var(--text-3); font-size: 12px; }
 .status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-2); padding: 3px 10px; border-radius: 99px; background: var(--bg-sunk); }
@@ -850,7 +857,6 @@ select.select.fl-psel { width: auto; max-width: 220px; padding: 3px 6px; font-si
 .flt-mod .seg button { white-space: nowrap; }
 .flt-mod .cf-metrics { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
 .flt-mod .metric .s { white-space: normal; overflow: visible; text-overflow: clip; }
-.flt-mod .af-head { row-gap: 8px; }
 
 /* rocket engines module */
 .rk-stage { cursor: crosshair; }

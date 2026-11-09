@@ -25,8 +25,8 @@ export const structuresModule = {
     const tabs = h('div', { class: 'tabs tabs-wrap', role: 'tablist' });
     const unitSel = select(UNIT_SYSTEMS, units.system, v => units.set(v), { class: 'select st-units', 'aria-label': 'Unit system', title: 'Unit system for every input and result' });
     const head = h('div', { class: 'af-head cf-head' },
-      h('div', {}, h('h2', { class: 'af-title' }, 'Structures Workbench'), h('div', { class: 'af-sub' }, 'Free-body diagrams, 2D and 3D frames, reactions, internal forces, deflection, stress, friction, FEA, vibration and buckling')),
-      h('div', { class: 'st-headr' }, unitSel, tabs));
+      h('div', {}, h('h2', { class: 'af-title' }, 'Structures Workbench'), h('div', { class: 'af-sub' }, 'Free-body diagrams, 2D and 3D frames, stress, FEA, vibration and buckling')),
+      h('div', { class: 'st-headr' }, unitSel), tabs);
     const body = h('div', { class: 'cf-body' });
     const learn = h('div', { class: 'cf-learn' }, h('h3', {}, 'Learn the concepts'),
       h('div', { class: 'cf-concepts' }, ...concepts.map(c => h('details', { class: 'concept' }, h('summary', {}, c.title), h('div', { class: 'body', html: c.html })))));
