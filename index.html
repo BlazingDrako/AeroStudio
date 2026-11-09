@@ -20,6 +20,10 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="The Pteronautics pterodactyl logo with the tagline: free aerospace engineering tools you can see.">
 <meta name="twitter:card" content="summary_large_image">
+<!-- With JavaScript on, hide the plain-text summary below so it doesn't flash before the app draws the real page.
+     Search engines and visitors without JavaScript still get the summary. -->
+<script>document.documentElement.classList.add('js');</script>
+<style>.js .seo-summary { display: none; }</style>
 <link rel="stylesheet" href="css/styles.css">
 <link rel="icon" type="image/svg+xml" href="assets/favicon-tab.svg?v=9">
 <link rel="apple-touch-icon" href="assets/logo/app-icon-1024.png">
@@ -45,7 +49,7 @@
   <main id="view">
     <!-- Plain-text summary for search engines and for anyone without JavaScript.
          The app replaces this with the interactive home page as soon as it starts. -->
-    <div class="home-inner">
+    <div class="home-inner seo-summary">
       <h1>Pteronautics</h1>
       <p>Free, visual aerospace engineering tools that run in your browser. Every result comes with a picture to attach the concept to. No sign-up, nothing to install.</p>
       <h2>Tools</h2>
