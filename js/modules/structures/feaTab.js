@@ -19,7 +19,7 @@ const BC_TYPES = [
   { value: 'rollerX', label: 'Symmetry: uₓ = 0' }, { value: 'rollerY', label: 'Symmetry: u_y = 0' },
   { value: 'force', label: 'Force (total, spread evenly)' }, { value: 'pressure', label: 'Pressure' }, { value: 'shear', label: 'Shear traction' }, { value: 'bearing', label: 'Pin bearing load (holes)' },
 ];
-const KEY = 'aerostudio-fea-v1';
+const KEY = 'pteronautics-fea-v1';
 
 export function feaTab({ keep = o => o } = {}) {
   const st = keep({

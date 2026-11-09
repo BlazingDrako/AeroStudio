@@ -6,8 +6,8 @@ import { solveFormula, sweep, unitList, preferredUnit, toSI, fromSI, fmtVal } fr
 import { TOPICS, FORMULAS, byId, topicById, CONSTANTS } from './library.js';
 
 // ---- persistent preferences ----
-const load = k => { try { return JSON.parse(localStorage.getItem('aerostudio-fl-' + k)); } catch { return null; } };
-const save = (k, v) => { try { localStorage.setItem('aerostudio-fl-' + k, JSON.stringify(v)); } catch { } };
+const load = k => { try { return JSON.parse(localStorage.getItem('pteronautics-fl-' + k)); } catch { return null; } };
+const save = (k, v) => { try { localStorage.setItem('pteronautics-fl-' + k, JSON.stringify(v)); } catch { } };
 let system = load('units') === 'us' ? 'us' : 'si';
 let logAxes = load('log') === true;
 const favs = new Set(Array.isArray(load('favs')) ? load('favs') : []);
@@ -150,7 +150,7 @@ export const formulasModule = {
       if (f) { document.title = `${f.name} — Formula Library`; main.replaceChildren(formulaView(f)); }
       else if (t) { document.title = `${t.title} — Formula Library`; main.replaceChildren(topicView(t)); }
       else if (p.get('fav')) { document.title = 'Favourites — Formula Library'; main.replaceChildren(favView()); }
-      else { document.title = 'Formula Library — AeroStudio'; main.replaceChildren(homeView()); }
+      else { document.title = 'Formula Library — Pteronautics'; main.replaceChildren(homeView()); }
     }
 
     function formulaCard(f) {

@@ -1,6 +1,6 @@
 // Display units for the Vehicle aero tab. Everything is computed in SI (speeds in km/h, heights in m, ride height
 // in mm); only what is shown changes. US units (mph, lb, lbf, ft, in, hp) are the default.
-const KEY = 'aerostudio.vehicleUnits';
+const KEY = 'pteronautics.vehicleUnits';
 let sys = 'us';
 try { const s = localStorage.getItem(KEY); if (s === 'us' || s === 'metric') sys = s; } catch { /* storage blocked: keep the default */ }
 

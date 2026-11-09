@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Serve AeroStudio locally (browsers require a server for JavaScript modules and workers).
+"""Serve Pteronautics locally (browsers require a server for JavaScript modules and workers).
 
 Usage:  python3 serve.py [port] [--no-browser]      then open http://localhost:8765
 
-If AeroStudio is already running on the port, this just opens it in the browser.
+If Pteronautics is already running on the port, this just opens it in the browser.
 If the port is taken by something else, the next free port is used.
 """
 import http.server
@@ -43,10 +43,10 @@ class Server(socketserver.ThreadingTCPServer):
 
 
 def already_running(port):
-    """True if an AeroStudio server already answers on this port."""
+    """True if an Pteronautics server already answers on this port."""
     try:
         with urllib.request.urlopen(f"http://127.0.0.1:{port}/index.html", timeout=0.6) as r:
-            return b"AeroStudio" in r.read(4000)
+            return b"Pteronautics" in r.read(4000)
     except Exception:
         return False
 
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     for port in range(PORT, PORT + 20):
         if already_running(port):
             url = f"http://localhost:{port}"
-            print(f"AeroStudio is already running at {url}")
+            print(f"Pteronautics is already running at {url}")
             if OPEN:
                 webbrowser.open(url)
             sys.exit(0)
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         except OSError:
             continue  # port busy with something else; try the next one
         url = f"http://localhost:{port}"
-        print(f"AeroStudio running at {url}  (Ctrl+C or close this window to stop)")
+        print(f"Pteronautics running at {url}  (Ctrl+C or close this window to stop)")
         if OPEN:
             webbrowser.open(url)
         try:

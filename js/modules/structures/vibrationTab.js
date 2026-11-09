@@ -15,7 +15,7 @@ const SDOF_INPUTS = [
   { value: 'step', label: 'Suddenly applied force' }, { value: 'rect', label: 'Rectangular force pulse' }, { value: 'halfsine', label: 'Half-sine force pulse' },
   { value: 'impulse', label: 'Impact (short impulse)' }, { value: 'sweep', label: 'Frequency sweep (chirp)' }, { value: 'shock', label: 'Half-sine base shock (g)' }, { value: 'quake', label: 'Earthquake ground motion' },
 ];
-const KEY = 'aerostudio-vib-v1';
+const KEY = 'pteronautics-vib-v1';
 const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
 export function vibrationTab({ go, keep = o => o }) {

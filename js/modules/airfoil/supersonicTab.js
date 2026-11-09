@@ -155,7 +155,7 @@ export function supersonicTab({ getAnalyzeGeom, setHeader, keep = o => o }) {
       const LE = Rr.upperW[0], a = S.alpha * DEG, Q = { x: LE[0] + 0.25 * Math.cos(a), y: LE[1] - 0.25 * Math.sin(a) };
       const sc = 0.9, cl = forces.cl, cd = forces.cd;
       if (Math.abs(cl) > 1e-4) { arrow(ctx, Q, { x: Q.x, y: Q.y + sc * Math.max(-0.6, Math.min(0.6, cl)) }, cssVar('--accent'), 2); label(ctx, { x: Q.x, y: Q.y + sc * Math.max(-0.6, Math.min(0.6, cl)) }, 'lift', { dx: 8, color: cssVar('--accent') }); }
-      if (cd > 1e-5) { const L = Math.min(0.6, cd * 10 * sc); arrow(ctx, Q, { x: Q.x + L, y: Q.y }, '#ff8a3d', 2); label(ctx, { x: Q.x + L, y: Q.y }, 'drag ×10', { dx: 6, dy: 10, color: '#ff8a3d' }); }
+      if (cd > 1e-5) { const L = Math.min(0.6, cd * 10 * sc); arrow(ctx, Q, { x: Q.x + L, y: Q.y }, cssVar('--hl'), 2); label(ctx, { x: Q.x + L, y: Q.y }, 'drag ×10', { dx: 6, dy: 10, color: cssVar('--hl') }); }
     }
   }
   const spawn = init => ({ x: init ? BOUNDS.x0 + Math.random() * (BOUNDS.x1 - BOUNDS.x0) : BOUNDS.x0 + 0.02, y: BOUNDS.y0 + Math.random() * (BOUNDS.y1 - BOUNDS.y0) });
@@ -290,7 +290,7 @@ export function supersonicTab({ getAnalyzeGeom, setHeader, keep = o => o }) {
     for (let a = -8; a <= 12.001; a += 0.5) { const r = solveAt(a, S.M); if (r.ok) { A.push(a); cl.push(r.cl); clL.push(r.clLin); } }
     const Ms = [], cd = [], cdw = [], cdL = [];
     for (let m = 1.1; m <= 5.001; m += 0.05) { const r = solveAt(S.alpha, m); if (r.ok) { Ms.push(m); cd.push(r.cd); cdw.push(r.cdw); cdL.push(r.cdwLin); } }
-    const ac = css('--accent'), or = '#ff8a3d';
+    const ac = css('--accent'), or = css('--hl');
     clPlot.setData({ series: [{ x: A, y: cl, color: ac, label: 'shock-expansion', points: true },
       { x: A, y: clL, color: ac, dash: [5, 4], width: 1.2, label: 'linear', noHover: true },
       ...(R.ok ? [{ x: [S.alpha], y: [R.cl], color: or, points: true, pointSize: 5, label: 'now', line: false }] : [])] });

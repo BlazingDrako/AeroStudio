@@ -122,8 +122,8 @@ in vec2 vUV;
 out vec4 outColor;
 
 vec3 diverging(float t) { // t in [-1,1]: blue (suction) .. neutral .. red (pressure)
-  vec3 neg = vec3(0.10, 0.45, 1.00), neg2 = vec3(0.55, 0.85, 1.0);
-  vec3 pos = vec3(1.00, 0.33, 0.20), pos2 = vec3(1.0, 0.80, 0.35);
+  vec3 neg = vec3(0.09, 0.55, 0.85), neg2 = vec3(0.59, 0.85, 0.97);
+  vec3 pos = vec3(1.00, 0.42, 0.36), pos2 = vec3(1.0, 0.79, 0.67);
   vec3 c;
   if (t < 0.0) { float a = -t; c = mix(uBg, mix(neg, neg2, smoothstep(0.55, 1.0, a)), smoothstep(0.0, 0.9, pow(a, 0.75))); }
   else { float a = t; c = mix(uBg, mix(pos, pos2, smoothstep(0.6, 1.0, a)), smoothstep(0.0, 0.9, pow(a, 0.75))); }

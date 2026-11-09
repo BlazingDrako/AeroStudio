@@ -7,8 +7,8 @@
 import { h, icon, cssVar, downloadText } from './ui.js';
 
 const slug = s => String(s || 'export').replace(/[\\/:*?"<>|]+/g, '').replace(/\s+/g, ' ').trim().slice(0, 80);
-const moduleName = () => document.title.replace(/\s*—\s*AeroStudio$/, '') || 'AeroStudio';
-const fileBase = what => `AeroStudio ${slug(moduleName())} - ${slug(what)}`;
+const moduleName = () => document.title.replace(/\s*—\s*Pteronautics$/, '') || 'Pteronautics';
+const fileBase = what => `Pteronautics ${slug(moduleName())} - ${slug(what)}`;
 
 export function downloadCanvas(canvas, filename) {
   canvas.toBlob(b => {
@@ -227,7 +227,7 @@ export async function printReport({ title, controls, results }) {
   const css = new URL('css/styles.css', location.href.split('#')[0]).href;
   const inputsHtml = inputs.map(g => `<div class="rp-group">${g.title ? `<h3>${esc(g.title)}</h3>` : ''}<table>${g.rows.map(([k, v]) => `<tr><td>${esc(k)}</td><td>${esc(v)}</td></tr>`).join('')}</table></div>`).join('');
   const html = `<!doctype html><html data-theme="light" data-resolved-theme="light"><head><meta charset="utf-8">
-<title>${esc(title)}${tab ? ' – ' + esc(tab) : ''} – AeroStudio report</title><link rel="stylesheet" href="${css}">
+<title>${esc(title)}${tab ? ' – ' + esc(tab) : ''} – Pteronautics report</title><link rel="stylesheet" href="${css}">
 <style>
   body { background: #fff; color: #1a1d23; margin: 0; overflow: auto; height: auto; }
   .rp { max-width: 960px; margin: 0 auto; padding: 28px 32px 48px; }
@@ -245,7 +245,7 @@ export async function printReport({ title, controls, results }) {
   @media print { .rp { padding: 0; } }
 </style></head><body>
 <div class="rp">
-  <div class="rp-top"><h1>${esc(title)}${tab ? ' · ' + esc(tab) : ''}</h1><div class="meta">AeroStudio report<br>${esc(new Date().toLocaleString())}</div></div>
+  <div class="rp-top"><h1>${esc(title)}${tab ? ' · ' + esc(tab) : ''}</h1><div class="meta">Pteronautics report<br>${esc(new Date().toLocaleString())}</div></div>
   ${inputsHtml ? `<h2>Inputs</h2><div class="rp-inputs">${inputsHtml}</div>` : ''}
   <h2>Results</h2><div class="rp-results">${body}</div>
 </div></body></html>`;

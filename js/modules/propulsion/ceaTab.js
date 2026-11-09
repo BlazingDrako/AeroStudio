@@ -163,7 +163,7 @@ export function ceaTab({ keep = o => o } = {}) {
   copyBtn.addEventListener('click', () => downloadText('cea-output.txt', textOutput(), 'text/plain'));
   const textOutput = () => {
     const C = cols(), pad = (s, n) => String(s).padStart(n);
-    let o = `AeroStudio chemical equilibrium (NASA CEA method, RP-1311)\nMade by Andrew Aguiar\n\nProblem: ${S.prob.toUpperCase()}  ${S.frozen && S.prob === 'rocket' ? 'FROZEN' : 'EQUILIBRIUM'}\nFuel: ${TH.REACTANTS[S.fuel].label}   Oxidizer: ${TH.REACTANTS[S.ox].label}\nO/F = ${(S.mixBy === 'of' ? S.of : TH.stoichOF(S.fuel, S.ox) / S.phi).toFixed(5)}   P = ${S.Pc} bar\n\n`;
+    let o = `Pteronautics chemical equilibrium (NASA CEA method, RP-1311)\nMade by Andrew Aguiar\n\nProblem: ${S.prob.toUpperCase()}  ${S.frozen && S.prob === 'rocket' ? 'FROZEN' : 'EQUILIBRIUM'}\nFuel: ${TH.REACTANTS[S.fuel].label}   Oxidizer: ${TH.REACTANTS[S.ox].label}\nO/F = ${(S.mixBy === 'of' ? S.of : TH.stoichOF(S.fuel, S.ox) / S.phi).toFixed(5)}   P = ${S.Pc} bar\n\n`;
     o += pad('', 18) + C.map(c => pad(c[0].toUpperCase(), 13)).join('') + '\n';
     const line = (lab, f) => { o += lab.padEnd(18) + C.map((c, i) => pad(f(c[1], i), 13)).join('') + '\n'; };
     line('P, BAR', c => (c.P / 1e5).toFixed(4)); line('T, K', c => c.T.toFixed(2)); line('RHO, KG/M3', c => c.rho.toExponential(4)); line('H, KJ/KG', c => (c.h / 1e3).toFixed(2)); line('S, KJ/(KG)(K)', c => (c.s / 1e3).toFixed(4));

@@ -8,8 +8,8 @@ import { canvasBox } from '../propulsion/common.js';
 
 export function sectionTab({ go, keep = o => o }) {
   const st = keep({ shape: 'ibeam', dims: { ...SHAPES.ibeam.def }, mat: 'al2024', N: 0, V: 20e3, M: 15e3, T: 0, pickY: null });
-  try { const s = JSON.parse(localStorage.getItem('aerostudio-section') || 'null'); if (s && SHAPES[s.shape]) Object.assign(st, s); } catch { }
-  const save = () => { try { localStorage.setItem('aerostudio-section', JSON.stringify(st)); } catch { } };
+  try { const s = JSON.parse(localStorage.getItem('pteronautics-section') || 'null'); if (s && SHAPES[s.shape]) Object.assign(st, s); } catch { }
+  const save = () => { try { localStorage.setItem('pteronautics-section', JSON.stringify(st)); } catch { } };
 
   const controls = h('div', { class: 'st-controls' });
   const sShape = section('Cross-section'), sMat = section('Material'), sLoad = section('Internal forces at this section');

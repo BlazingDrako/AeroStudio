@@ -1,5 +1,5 @@
 // 3-D frame model store (SI units, Z up), undo/redo, persistence and example generators.
-const KEY = 'aerostudio-frame3d-v1';
+const KEY = 'pteronautics-frame3d-v1';
 const SEC = {
   w310: { id: 's1', name: 'W310×39 I-beam', shape: 'ibeam', dims: { b: 0.165, h: 0.31, tf: 0.0097, tw: 0.0058 } },
   w250: { id: 's2', name: 'W250×49 column', shape: 'ibeam', dims: { b: 0.202, h: 0.247, tf: 0.011, tw: 0.0074 } },

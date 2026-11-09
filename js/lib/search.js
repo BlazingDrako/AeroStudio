@@ -139,7 +139,7 @@ const SUGGEST = ['Mach disk', 'Dutch roll', 'Hohmann transfer', 'Boundary layer'
 
 export function openSearch() {
   if (ov) { ov.querySelector('input').focus(); return; }
-  const input = h('input', { class: 'sp-input', type: 'search', placeholder: 'Search modules, concepts and formulas…', 'aria-label': 'Search AeroStudio', autocomplete: 'off', spellcheck: 'false' });
+  const input = h('input', { class: 'sp-input', type: 'search', placeholder: 'Search modules, concepts and formulas…', 'aria-label': 'Search Pteronautics', autocomplete: 'off', spellcheck: 'false' });
   const list = h('div', { class: 'sp-list', role: 'listbox' });
   const foot = h('div', { class: 'sp-foot' }, h('span', {}, h('kbd', {}, '↑'), h('kbd', {}, '↓'), ' to move'), h('span', {}, h('kbd', {}, '↵'), ' to open'), h('span', {}, h('kbd', {}, 'esc'), ' to close'));
   const box = h('div', { class: 'sp-box', role: 'dialog', 'aria-label': 'Search' }, h('div', { class: 'sp-top' }, icon('search', 18), input), list, foot);

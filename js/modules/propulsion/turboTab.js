@@ -296,6 +296,7 @@ export function turboTab({ keep = o => o } = {}) {
     const eff = M.eff(op.m, op.p);
     metrics.set([{ k: 'Operating PR', v: fmt(op.p, 3) }, { k: 'Corrected flow', v: fmt(op.m, 3), s: 'relative to design' }, { k: 'Surge margin', v: (SM * 100).toFixed(1) + '%', cls: SM < 0.1 ? 'bad' : '', s: '(π_surge − π)/π at same flow' }, { k: 'Efficiency (approx.)', v: fmt(eff, 3) }]);
     mapBox.set(({ W, H, g }) => {
+      const acRGB = (cssv('--accent').match(/[0-9a-f]{2}/gi) || ['16', '77', 'b3']).slice(0, 3).map(x => parseInt(x, 16)).join(',');
       g.clearRect(0, 0, W, H);
       const pad = [20, 20, 40, 56], x0 = 0.45, x1 = 1.12, y0 = 1, y1 = 1 + (A.piD - 1) * 1.35;
       const X = m => pad[3] + (m - x0) / (x1 - x0) * (W - pad[1] - pad[3]), Y = p => H - pad[2] - (p - y0) / (y1 - y0) * (H - pad[0] - pad[2]);
@@ -308,7 +309,7 @@ export function turboTab({ keep = o => o } = {}) {
         const lvl = Math.floor((e - 0.7) / 0.03);
         if (lvl < 0) continue;
         const a = Math.min(0.5, 0.06 + lvl * 0.07);
-        g.fillStyle = `rgba(47,111,237,${a})`; g.fillRect(px, py, step, step);
+        g.fillStyle = `rgba(${acRGB},${a})`; g.fillRect(px, py, step, step);
       }
       g.strokeStyle = cssv('--border'); g.lineWidth = 1; g.font = '10.5px ' + cssv('--mono'); g.fillStyle = cssv('--text-3');
       for (let m = 0.5; m <= 1.1; m += 0.1) { g.beginPath(); g.moveTo(X(m), pad[0]); g.lineTo(X(m), H - pad[2]); g.stroke(); g.textAlign = 'center'; g.fillText(m.toFixed(1), X(m), H - pad[2] + 14); }

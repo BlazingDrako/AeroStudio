@@ -11,7 +11,7 @@ export const SKINS = [
   { id: 'blueprint', name: 'Blueprint', sub: 'Cyanotype engineering drawing' },
   { id: 'mission', name: 'Mission Control', sub: '1960s amber CRT and teletype' },
 ];
-const KEY = 'aerostudio-skin';
+const KEY = 'pteronautics-skin';
 
 export const currentSkin = () => document.documentElement.dataset.skin || '';
 
@@ -85,9 +85,9 @@ function paintOverlay() {
     const block = h('div', { class: 'bp-title' });
     overlay.append(block);
     const fill = () => {
-      const page = (document.title.split(' — ')[0] || 'AeroStudio');
+      const page = (document.title.split(' — ')[0] || 'Pteronautics');
       const d = new Date(), date = `${String(d.getDate()).padStart(2, '0')} ${d.toLocaleString('en', { month: 'short' }).toUpperCase()} ${d.getFullYear()}`;
-      block.innerHTML = `<div class="bp-row bp-big"><span>AEROSTUDIO</span><span>DWG NO. AS-${String(hash(page)).padStart(4, '0')}</span></div>
+      block.innerHTML = `<div class="bp-row bp-big"><span>PTERONAUTICS</span><span>DWG NO. PN-${String(hash(page)).padStart(4, '0')}</span></div>
         <div class="bp-row"><span class="bp-k">TITLE</span><span>${page.toUpperCase()}</span></div>
         <div class="bp-row bp-cells"><span><i>DRAWN</i>A. AGUIAR</span><span><i>SCALE</i>NTS</span><span><i>SHEET</i>1 OF 1</span><span><i>DATE</i>${date}</span></div>`;
     };
@@ -430,7 +430,7 @@ function launch() {
       const len = (r.tt > 0 ? 34 : 18) + Math.random() * 12;
       g.globalAlpha = 0.75; g.fillStyle = flame;
       g.beginPath(); g.moveTo(-6, 0); g.quadraticCurveTo(0, len * 1.4, 6, 0); g.fill();
-      g.globalAlpha = 0.95; g.fillStyle = '#ffe2b8';
+      g.globalAlpha = 0.95; g.fillStyle = '#ffe6df';
       g.beginPath(); g.moveTo(-3, 0); g.quadraticCurveTo(0, len * 0.7, 3, 0); g.fill();
       // the rocket: nozzle, fins, body with a stage band, nose cone (same line style as the logo plane)
       g.globalAlpha = 1; g.lineJoin = 'round'; g.lineWidth = 1.5; g.strokeStyle = accent;

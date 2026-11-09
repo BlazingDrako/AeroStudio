@@ -2,7 +2,7 @@
 
 [← Back to the README](../README.md)
 
-AeroStudio is plain JavaScript modules: no build step, no dependencies. Edit a file and reload.
+Pteronautics is plain JavaScript modules: no build step, no dependencies. Edit a file and reload.
 Run it with `python3 serve.py` (the server sends `Cache-Control: no-store`, so every reload picks up your edits).
 
 ## Code layout

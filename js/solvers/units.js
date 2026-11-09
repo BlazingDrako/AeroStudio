@@ -43,14 +43,14 @@ const SYSTEMS = {
 export const UNIT_SYSTEMS = Object.entries(SYSTEMS).map(([value, s]) => ({ value, label: s.label }));
 
 let current = 'si_kn';
-try { const s = localStorage.getItem('aerostudio-struct-units'); if (s && SYSTEMS[s]) current = s; } catch { }
+try { const s = localStorage.getItem('pteronautics-struct-units'); if (s && SYSTEMS[s]) current = s; } catch { }
 
 export const units = {
   get system() { return current; },
   set(sys) {
     if (!SYSTEMS[sys] || sys === current) return;
     current = sys;
-    try { localStorage.setItem('aerostudio-struct-units', sys); } catch { }
+    try { localStorage.setItem('pteronautics-struct-units', sys); } catch { }
     dispatchEvent(new Event('unitschange'));
   },
   label: q => SYSTEMS[current][q][0],

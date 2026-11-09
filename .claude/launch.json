@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "aerostudio",
+      "name": "pteronautics",
       "runtimeExecutable": "python3",
       "runtimeArgs": [
         "serve.py"
@@ -10,7 +10,7 @@
       "port": 8765
     },
     {
-      "name": "aerostudio-2",
+      "name": "pteronautics-2",
       "runtimeExecutable": "python3",
       "runtimeArgs": [
         "serve.py",
@@ -20,7 +20,7 @@
       "port": 8775
     },
     {
-      "name": "aerostudio-3",
+      "name": "pteronautics-3",
       "runtimeExecutable": "python3",
       "runtimeArgs": [
         "serve.py",

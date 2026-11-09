@@ -524,7 +524,7 @@ export function surfacePoint(res, is, xq) {
 const mix = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t);
 const smooth = (e0, e1, x) => { const t = Math.min(1, Math.max(0, (x - e0) / (e1 - e0))); return t * t * (3 - 2 * t); };
 export function divergingJS(t, bg) {
-  const neg = [26, 115, 255], neg2 = [140, 217, 255], pos = [255, 84, 51], pos2 = [255, 204, 89];
+  const neg = [23, 140, 217], neg2 = [150, 217, 247], pos = [255, 107, 92], pos2 = [255, 201, 171];
   let c;
   if (t < 0) { const a = -t; c = mix(bg, mix(neg, neg2, smooth(0.55, 1, a)), smooth(0, 0.9, a ** 0.75)); }
   else { c = mix(bg, mix(pos, pos2, smooth(0.6, 1, t)), smooth(0, 0.9, t ** 0.75)); }

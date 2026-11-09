@@ -3,7 +3,7 @@
 import { h, info, segmented } from '../../lib/ui.js';
 export { card, metricsGrid, insightsList } from '../compressible/common.js';
 
-const KEY = 'aerostudio.flightUnits';
+const KEY = 'pteronautics.flightUnits';
 let sys = 'us';
 try { const s = localStorage.getItem(KEY); if (s === 'us' || s === 'si') sys = s; } catch { /* storage blocked: keep the default */ }
 const listeners = new Set();

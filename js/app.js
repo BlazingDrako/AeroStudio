@@ -1,4 +1,5 @@
-// AeroStudio shell: navigation, routing, theming. Modules register in `modules` below.
+// Pteronautics shell: navigation, routing, theming. Modules register in `modules` below.
+import './lib/rename.js'; // must stay first: moves settings saved under the old AeroStudio name
 import { h, icon } from './lib/ui.js';
 import { airfoilModule } from './modules/airfoil/index.js';
 import { compressibleModule } from './modules/compressible/index.js';
@@ -71,13 +72,14 @@ const view = document.getElementById('view');
 const nav = document.getElementById('nav');
 let current = null;
 
-// The logo: an outlined arrow with two floating triangular wings and a diamond exhaust flame.
-// Drawn inline (not as an <img>) so its colours come from the theme variables and it follows
-// light/dark and the secret themes. Same drawing as assets/favicon.svg.
-const BRAND_SVG = `<svg viewBox="0 2 100 102" aria-hidden="true">
-<path class="bm-line" d="M50 8 L78 82 L60 75 L50 52 L40 75 L22 82 Z"/>
-<path class="bm-line" d="M70.4 38 L80.2 64 L96 70 Z M29.6 38 L19.8 64 L4 70 Z"/>
-<path class="bm-flame" d="M50 62 L55.8 77 L50 100 L44.2 77 Z"/></svg>`;
+// The logo: a soaring pterodactyl seen from above, outlined over a faint wash of the accent,
+// with a diamond vane at the tip of its tail. Drawn inline (not as an <img>) so its colours come
+// from the theme variables and it follows light/dark and the secret themes. Same drawing as assets/favicon.svg.
+const BRAND_SVG = `<svg viewBox="0 4 100 100" aria-hidden="true">
+<path class="bm-fill" d="M50 10 L54 24 L53 36 C62 35 70 33 78 31 C86 36 92 44 96 54 C80 52 68 56 60 66 L56 76 L50 70 L44 76 L40 66 C32 56 20 52 4 54 C8 44 14 36 22 31 C30 33 38 35 47 36 L46 24 Z"/>
+<path class="bm-line" d="M50 10 L54 24 L53 36 C62 35 70 33 78 31 C86 36 92 44 96 54 C80 52 68 56 60 66 L56 76 L50 70 L44 76 L40 66 C32 56 20 52 4 54 C8 44 14 36 22 31 C30 33 38 35 47 36 L46 24 Z"/>
+<path class="bm-line" d="M50 72 L50 84"/>
+<path class="bm-flame" d="M50 82 L54 89 L50 97 L46 89 Z"/></svg>`;
 function brandMark() {
   const el = h('span', { class: 'brand-mark', onclick: flyby });
   el.innerHTML = BRAND_SVG;
@@ -88,7 +90,7 @@ function buildNav() {
   nav.replaceChildren();
   nav.append(h('div', { class: 'brand' },
     brandMark(),
-    h('div', {}, h('div', { class: 'brand-name' }, 'AeroStudio'), h('div', { class: 'brand-sub' }, 'See the physics'))));
+    h('div', {}, h('div', { class: 'brand-name' }, 'Pteronautics'), h('div', { class: 'brand-sub' }, 'See the physics'))));
   const find = h('button', { class: 'nav-item nav-search', type: 'button', title: `Search modules, concepts and formulas (${searchShortcut()})` }, icon('search'), h('span', { class: 'nav-label' }, 'Search'), h('span', { class: 'kbd' }, searchShortcut()));
   find.addEventListener('click', () => openSearch());
   const home = h('a', { class: 'nav-item', href: '#/', 'data-id': 'home' }, icon('home'), h('span', { class: 'nav-label' }, 'Home'));
@@ -118,7 +120,7 @@ function resolvedTheme() {
 }
 function setTheme(t) {
   document.documentElement.dataset.theme = t;
-  try { localStorage.setItem('aerostudio-theme', t); } catch { }
+  try { localStorage.setItem('pteronautics-theme', t); } catch { }
   applyTheme();
 }
 function applyTheme() {
@@ -134,13 +136,13 @@ function route() {
   const m = modules.find(m => m.id === id);
   if (!m) { current = null; renderHome(); return; }
   current = m;
-  document.title = `${m.title} — AeroStudio`;
+  document.title = `${m.title} — Pteronautics`;
   if (m.status === 'live') m.mount(view);
   else renderPlanned(m);
 }
 
 function renderHome() {
-  document.title = 'AeroStudio';
+  document.title = 'Pteronautics';
   const card = m => {
     const live = m.status === 'live';
     const tag = h('span', { class: 'tag' + (live ? ' live' : '') }, live ? 'Ready' : 'Coming soon');
@@ -175,7 +177,7 @@ function renderHome() {
 const HERO_PLANE_SVG = `<svg viewBox="0 0 300 200">
   <defs>
     <linearGradient id="hero-plume" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="var(--hl)"/><stop offset="1" stop-color="var(--hl)" stop-opacity="0"/></linearGradient>
-    <linearGradient id="hero-core" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#ffe2b8"/><stop offset=".5" stop-color="#ffb36b"/><stop offset="1" stop-color="#ff8a3d" stop-opacity="0"/></linearGradient>
+    <linearGradient id="hero-core" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#ffe6df"/><stop offset=".5" stop-color="#ffa99c"/><stop offset="1" stop-color="#ff7a6b" stop-opacity="0"/></linearGradient>
   </defs>
   <g transform="translate(166 92) rotate(-34) scale(1.55) translate(-76 -19)">
     <g class="hp-streaks">
@@ -214,7 +216,7 @@ function renderPlanned(m) {
       h('div', { class: 'card' }, h('h3', {}, 'Status'), h('p', {}, 'This module is on the roadmap. The app is built so each tool is a self-contained module sharing the same controls, plots and visualization engine.'))))));
 }
 
-try { const t = localStorage.getItem('aerostudio-theme'); if (t) document.documentElement.dataset.theme = t; } catch { }
+try { const t = localStorage.getItem('pteronautics-theme'); if (t) document.documentElement.dataset.theme = t; } catch { }
 loadSkin();
 document.documentElement.dataset.resolvedTheme = resolvedTheme();
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { document.documentElement.dataset.resolvedTheme = resolvedTheme(); dispatchEvent(new Event('themechange')); });

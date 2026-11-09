@@ -2,13 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>CFBundleName</key><string>AeroStudio</string>
-  <key>CFBundleDisplayName</key><string>AeroStudio</string>
-  <key>CFBundleIdentifier</key><string>local.aerostudio.launcher</string>
+  <key>CFBundleName</key><string>Pteronautics</string>
+  <key>CFBundleDisplayName</key><string>Pteronautics</string>
+  <key>CFBundleIdentifier</key><string>local.pteronautics.launcher</string>
   <key>CFBundleVersion</key><string>1.0</string>
   <key>CFBundleShortVersionString</key><string>1.0</string>
   <key>CFBundlePackageType</key><string>APPL</string>
-  <key>CFBundleExecutable</key><string>AeroStudio</string>
+  <key>CFBundleExecutable</key><string>Pteronautics</string>
   <key>CFBundleIconFile</key><string>AppIcon</string>
   <key>LSMinimumSystemVersion</key><string>10.13</string>
 </dict>

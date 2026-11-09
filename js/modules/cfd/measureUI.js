@@ -9,7 +9,7 @@ const MAX_SAMPLES = 6000;
 const WINDOW = 40;          // statistics over the last 40 L/U
 const SETTLE = 15;          // no statistics before t = 15 L/U
 export const MAX_PROBES = 4;
-export const probeColor = i => ['#4c8dff', '#ff8a3d', '#2fbf7f', '#b26bff'][i % 4];
+export const probeColor = i => ['#3aa0d8', '#ff7a6b', '#2fbf7f', '#b26bff'][i % 4];
 
 function card(title, tip, right, ...children) {
   return h('div', { class: 'plot-card' }, h('div', { class: 'plot-head' }, h('div', { class: 'row' }, h('h4', {}, title), tip ? info(tip) : null), h('div', { class: 'row' }, ...right)), ...children);

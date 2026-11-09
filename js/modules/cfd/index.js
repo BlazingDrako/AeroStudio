@@ -174,9 +174,9 @@ export const cfdModule = {
     root.append(h('div', { class: 'af cf fs' }, controls, main));
     const octx = ov.getContext('2d');
     // first-visit hint, dismissed on the first click in the flow or after a while
-    let hintSeen = false; try { hintSeen = localStorage.getItem('aerostudio-cfd-hint') === '1'; } catch { }
+    let hintSeen = false; try { hintSeen = localStorage.getItem('pteronautics-cfd-hint') === '1'; } catch { }
     const stageHint = h('div', { class: 'hint-overlay fs-hint' }, 'Drag the obstacle through the flow, or pick a tool on the left to draw, stir, add dye or measure.');
-    const dismissHint = () => { stageHint.classList.add('gone'); try { localStorage.setItem('aerostudio-cfd-hint', '1'); } catch { } };
+    const dismissHint = () => { stageHint.classList.add('gone'); try { localStorage.setItem('pteronautics-cfd-hint', '1'); } catch { } };
     if (!hintSeen) { stage.append(stageHint); setTimeout(dismissHint, 12000); } 
     // only draw while the flow is on screen (the solver keeps running so the plots below stay live)
     const io = new IntersectionObserver(es => { for (const e of es) stageVisible = e.isIntersecting; });
@@ -280,11 +280,11 @@ export const cfdModule = {
       solver.render(v.mode, v.range || 1, colors); drawOverlay();
       const W = canvas.width, H = canvas.height, c = document.createElement('canvas'); c.width = W; c.height = H;
       const g = c.getContext('2d'); g.drawImage(canvas, 0, 0); g.drawImage(ov, 0, 0);
-      const dpr = W / canvas.getBoundingClientRect().width, txt = `AeroStudio · ${S.scene.label} · Re ${fmtRe(S.Re)} · ${v.label} · t = ${(solver.iter * U_LAT / refL()).toFixed(1)} ${S.scene.sym}/U`;
+      const dpr = W / canvas.getBoundingClientRect().width, txt = `Pteronautics · ${S.scene.label} · Re ${fmtRe(S.Re)} · ${v.label} · t = ${(solver.iter * U_LAT / refL()).toFixed(1)} ${S.scene.sym}/U`;
       g.font = `${12 * dpr}px system-ui, sans-serif`; const tw = g.measureText(txt).width;
       g.fillStyle = 'rgba(0,0,0,0.45)'; g.fillRect(W - tw - 18 * dpr, H - 24 * dpr, tw + 12 * dpr, 18 * dpr);
       g.fillStyle = '#fff'; g.textBaseline = 'middle'; g.fillText(txt, W - tw - 12 * dpr, H - 15 * dpr);
-      c.toBlob(b => { if (!b) return; const a = h('a', { href: URL.createObjectURL(b), download: `aerostudio-${S.scene.id}.png` }); document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); }, 'image/png');
+      c.toBlob(b => { if (!b) return; const a = h('a', { href: URL.createObjectURL(b), download: `pteronautics-${S.scene.id}.png` }); document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); }, 'image/png');
     }
 
     function writeHash() {

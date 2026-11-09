@@ -1,4 +1,4 @@
-# AeroStudio
+# Pteronautics
 
 Free, visual aerospace engineering tools that run in the browser. Every result comes with a
 picture to attach the concept to.
@@ -7,10 +7,10 @@ picture to attach the concept to.
 
 - **macOS:** double-click `start.command` (first time: right-click → Open).
 - **Windows:** double-click `start.bat`.
-- **macOS app:** double-click `AeroStudio.app` in this folder (no Terminal window; quit it from the Dock to stop the server).
+- **macOS app:** double-click `Pteronautics.app` in this folder (no Terminal window; quit it from the Dock to stop the server).
 - **Any system:** `python3 serve.py`, then open http://localhost:8765
 
-If AeroStudio is already running, launching again just opens it in the browser; if port 8765 is taken by
+If Pteronautics is already running, launching again just opens it in the browser; if port 8765 is taken by
 something else, the next free port is used.
 
 A tiny local server is needed because browsers block JavaScript modules and background
@@ -56,7 +56,7 @@ Spacecraft Systems and Aircraft Design.
 
 ## License
 
-Copyright (C) 2026 Andrew Aguiar. AeroStudio is free software under the
+Copyright (C) 2026 Andrew Aguiar. Pteronautics is free software under the
 [GNU General Public License v3.0](LICENSE): you may use, study, share and change it, but any copy or modified
 version you distribute must keep this copyright notice, credit the original, and be released under the same license.
 See [COPYRIGHT](COPYRIGHT) for details.

@@ -43,7 +43,7 @@ class SolverClient {
 
 const fmtForce = F => { const a = Math.abs(F); return a >= 1e4 ? (F / 1e3).toFixed(a >= 1e5 ? 0 : 1) + ' kN/m' : (F).toFixed(a >= 100 ? 0 : a >= 10 ? 1 : 2) + ' N/m'; };
 const fmtLen = v => v < 1 ? (v * 100).toFixed(v < 0.1 ? 1 : 0) + ' cm' : (+v).toFixed(2) + ' m';
-const RUN_COLORS = ['#5b8cff', '#ff8a3d', '#22c55e', '#e5484d', '#a78bfa', '#14b8a6', '#eab308', '#ec4899'];
+const RUN_COLORS = ['#3aa0d8', '#ff7a6b', '#22c55e', '#e5484d', '#a78bfa', '#14b8a6', '#eab308', '#ec4899'];
 
 export const airfoilModule = {
   id: 'airfoil',

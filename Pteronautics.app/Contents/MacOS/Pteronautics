@@ -1,9 +1,9 @@
 #!/bin/bash
-# AeroStudio launcher: starts the local server from the folder this app sits in and opens the browser.
+# Pteronautics launcher: starts the local server from the folder this app sits in and opens the browser.
 # Quit the app from the Dock to stop the server.
 HERE="$(cd "$(dirname "$0")/../../.." && pwd)"
 cd "$HERE" || exit 1
 for PY in /opt/homebrew/bin/python3 /usr/local/bin/python3 /Library/Frameworks/Python.framework/Versions/Current/bin/python3 /usr/bin/python3; do
   if [ -x "$PY" ]; then exec "$PY" "$HERE/serve.py"; fi
 done
-osascript -e 'display alert "AeroStudio needs Python 3" message "Install it from python.org, then open AeroStudio again."'
+osascript -e 'display alert "Pteronautics needs Python 3" message "Install it from python.org, then open Pteronautics again."'

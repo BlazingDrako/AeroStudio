@@ -88,7 +88,7 @@ export class Store {
 export const projT = (a, b, x, y) => { const dx = b.x - a.x, dy = b.y - a.y, L2 = dx * dx + dy * dy; return L2 ? ((x - a.x) * dx + (y - a.y) * dy) / L2 : 0; };
 export const distToSeg = (a, b, x, y) => { const t = Math.max(0, Math.min(1, projT(a, b, x, y))); return Math.hypot(a.x + (b.x - a.x) * t - x, a.y + (b.y - a.y) * t - y); };
 
-const KEY = 'aerostudio-structure-v1';
+const KEY = 'pteronautics-structure-v1';
 let saveTimer = 0;
 function save(model) { clearTimeout(saveTimer); saveTimer = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(model)); } catch { } }, 300); }
 export function loadSaved() { try { const s = localStorage.getItem(KEY); if (s) { const m = JSON.parse(s); if (m && Array.isArray(m.nodes)) return normalize(m); } } catch { } return null; }
