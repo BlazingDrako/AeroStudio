@@ -142,7 +142,7 @@ function route() {
 }
 
 function renderHome() {
-  document.title = 'Pteronautics';
+  document.title = 'Pteronautics: Free Aerospace Engineering Tools in Your Browser';
   const card = m => {
     const live = m.status === 'live';
     const tag = h('span', { class: 'tag' + (live ? ' live' : '') }, live ? 'Ready' : 'Coming soon');

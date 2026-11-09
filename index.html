@@ -3,17 +3,69 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pteronautics</title>
-<meta name="description" content="Free, visual aerospace engineering tools that run in your browser.">
+<title>Pteronautics: Free Aerospace Engineering Tools in Your Browser</title>
+<meta name="description" content="Free aerospace engineering tools that run in your browser: airfoils, shocks and nozzles, rocket and jet engines, structures, flight and orbits. No sign-up.">
+<link rel="canonical" href="https://blazingdrako.github.io/Pteronautics/">
+<meta name="author" content="Andrew Aguiar">
+<meta name="theme-color" content="#0b0d11" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f2f4f7" media="(prefers-color-scheme: light)">
+<!-- link previews (iMessage, Discord, Reddit, Slack, X…) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pteronautics">
+<meta property="og:title" content="Pteronautics: Free Aerospace Engineering Tools">
+<meta property="og:description" content="Airfoils, shocks, rocket and jet engines, structures, flight and orbits, each with a picture of the physics. Free, in your browser.">
+<meta property="og:url" content="https://blazingdrako.github.io/Pteronautics/">
+<meta property="og:image" content="https://blazingdrako.github.io/Pteronautics/assets/social-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The Pteronautics pterodactyl logo with the tagline: free aerospace engineering tools you can see.">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="css/styles.css">
 <link rel="icon" type="image/svg+xml" href="assets/favicon-tab.svg?v=9">
+<link rel="apple-touch-icon" href="assets/logo/app-icon-1024.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Pteronautics",
+  "url": "https://blazingdrako.github.io/Pteronautics/",
+  "description": "Free, visual aerospace engineering tools that run in the browser: airfoil analysis, compressible flow, CFD, rocket and jet engines, structures, flight dynamics, guidance and control, and orbital mechanics.",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any (runs in a web browser)",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "Andrew Aguiar" },
+  "image": "https://blazingdrako.github.io/Pteronautics/assets/social-card.png"
+}
+</script>
 </head>
 <body>
 <div class="app">
   <nav class="sidebar" id="nav" aria-label="Modules"></nav>
-  <main id="view"></main>
+  <main id="view">
+    <!-- Plain-text summary for search engines and for anyone without JavaScript.
+         The app replaces this with the interactive home page as soon as it starts. -->
+    <div class="home-inner">
+      <h1>Pteronautics</h1>
+      <p>Free, visual aerospace engineering tools that run in your browser. Every result comes with a picture to attach the concept to. No sign-up, nothing to install.</p>
+      <h2>Tools</h2>
+      <ul>
+        <li><a href="#/airfoil">Airfoil Lab</a>: viscous airfoil analysis (an XFOIL-class solver) with live flow visualization, pressure, boundary layer, transition and stall, polar sweeps, supersonic sections and vehicle aerodynamics.</li>
+        <li><a href="#/compressible">Shocks &amp; Nozzles</a>: compressible-flow calculator, normal and oblique shocks, expansion fans, nozzles and plumes, the θ–β–M chart, a shock tube and an Euler CFD solver.</li>
+        <li><a href="#/cfd">Fluid Flow Sandbox</a>: real-time 2-D viscous flow on the GPU (lattice Boltzmann) with vortex streets, stalling wings and obstacles you can draw.</li>
+        <li><a href="#/rocket">Rocket Engines</a>: size a liquid rocket engine from a thrust target with equilibrium chemistry, compare real engines, and explore propellants, plumes and cooling.</li>
+        <li><a href="#/turbine">Jet Engine Cycles</a>: turbojet to scramjet cycle analysis station by station, trade studies, inlets, compressors, turbines and compressor maps.</li>
+        <li><a href="#/structures">Structures Workbench</a>: statics, 2-D and 3-D frames, 2-D finite element analysis, cross sections, Mohr's circle, vibration and buckling.</li>
+        <li><a href="#/flight">Flight &amp; Atmosphere</a>: the standard atmosphere, airspeeds, aircraft performance, flight envelope, stability and dynamic modes.</li>
+        <li><a href="#/gnc">Guidance, Navigation &amp; Control</a>: control loops, fly-by-wire, autopilots, navigation and INS/GNSS Kalman filtering.</li>
+        <li><a href="#/orbits">Orbital Mechanics</a>: orbital elements in 3-D, Hohmann and bi-elliptic transfers, plane changes, ground tracks and Δv budgets from the launch pad to Mars.</li>
+        <li><a href="#/formulas">Formula Library</a>: 127 aerospace formulas you can solve for any variable, plot and convert between units.</li>
+      </ul>
+      <p>Made by Andrew Aguiar. Free software under the GPL-3.0 license.</p>
+    </div>
+  </main>
 </div>
-<noscript>Pteronautics needs JavaScript to run.</noscript>
+<noscript>Pteronautics needs JavaScript to run its interactive tools.</noscript>
 <script type="module" src="js/app.js"></script>
 </body>
 </html>

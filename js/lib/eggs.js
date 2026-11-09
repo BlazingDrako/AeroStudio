@@ -85,7 +85,7 @@ function paintOverlay() {
     const block = h('div', { class: 'bp-title' });
     overlay.append(block);
     const fill = () => {
-      const page = (document.title.split(' — ')[0] || 'Pteronautics');
+      const page = (document.title.split(/ — |: /)[0] || 'Pteronautics');
       const d = new Date(), date = `${String(d.getDate()).padStart(2, '0')} ${d.toLocaleString('en', { month: 'short' }).toUpperCase()} ${d.getFullYear()}`;
       block.innerHTML = `<div class="bp-row bp-big"><span>PTERONAUTICS</span><span>DWG NO. PN-${String(hash(page)).padStart(4, '0')}</span></div>
         <div class="bp-row"><span class="bp-k">TITLE</span><span>${page.toUpperCase()}</span></div>

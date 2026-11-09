@@ -7,7 +7,7 @@
 import { h, icon, cssVar, downloadText } from './ui.js';
 
 const slug = s => String(s || 'export').replace(/[\\/:*?"<>|]+/g, '').replace(/\s+/g, ' ').trim().slice(0, 80);
-const moduleName = () => document.title.replace(/\s*—\s*Pteronautics$/, '') || 'Pteronautics';
+const moduleName = () => document.title.replace(/\s*—\s*Pteronautics$/, '').replace(/: Free .*$/, '') || 'Pteronautics';
 const fileBase = what => `Pteronautics ${slug(moduleName())} - ${slug(what)}`;
 
 export function downloadCanvas(canvas, filename) {
