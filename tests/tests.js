@@ -22,6 +22,7 @@ import { insTests } from './ins.tests.js';
 import { collabTests } from './collab.tests.js';
 import { rocketTests } from './rocket.tests.js';
 import { orbitsTests } from './orbits.tests.js';
+import { wingsTests } from './wings.tests.js';
 
 const results = [];
 const log = (name, pass, detail = '') => { results.push({ name, pass, detail }); };
@@ -196,7 +197,8 @@ export async function runAll(out) {
   const team = function collab() { collabTests(log); };
   const rkt = function rocket() { rocketTests(log); };
   const orb = function orbits() { orbitsTests(log); };
-  const steps = only === 'orbits' ? [orb] : only === 'rocket' ? [rkt] : only === 'collab' ? [team] : only === 'ins' ? [insT] : only === 'navigation' ? [nav, insT] : only === 'autopilot' ? [apt] : only === 'augment' ? [aug] : only === 'control' ? [ctl, aug, apt] : only === 'stability' ? [stab] : only === 'performance' ? [perf] : only === 'flight' ? [flt, perf, stab, ctl, aug, apt] : only === 'vehicles' ? [veh] : only === 'cfd' ? [cfd] : only === 'formulas' ? [fl] : only === 'gasdyn' ? [gas] : only === 'supersonic' ? [sup] : only === 'propulsion' ? [prop] : only === 'structures' ? [struct, fem, vib, f3d] : only === 'frame3d' ? [f3d] : only === 'fem2d' ? [fem] : only === 'vibration' ? [vib] : [gas, sup, prop, rkt, orb, struct, fem, vib, f3d, fl, cfd, veh, flt, perf, stab, ctl, aug, apt, nav, insT, team, pingCorrelations, pingTransition, pingGlobal, compareSolvers, physics];
+  const wng = function wings() { wingsTests(log); };
+  const steps = only === 'wings' ? [wng] : only === 'orbits' ? [orb] : only === 'rocket' ? [rkt] : only === 'collab' ? [team] : only === 'ins' ? [insT] : only === 'navigation' ? [nav, insT] : only === 'autopilot' ? [apt] : only === 'augment' ? [aug] : only === 'control' ? [ctl, aug, apt] : only === 'stability' ? [stab] : only === 'performance' ? [perf] : only === 'flight' ? [flt, perf, stab, ctl, aug, apt] : only === 'vehicles' ? [veh] : only === 'cfd' ? [cfd] : only === 'formulas' ? [fl] : only === 'gasdyn' ? [gas] : only === 'supersonic' ? [sup] : only === 'propulsion' ? [prop] : only === 'structures' ? [struct, fem, vib, f3d] : only === 'frame3d' ? [f3d] : only === 'fem2d' ? [fem] : only === 'vibration' ? [vib] : [gas, sup, prop, rkt, orb, wng, struct, fem, vib, f3d, fl, cfd, veh, flt, perf, stab, ctl, aug, apt, nav, insT, team, pingCorrelations, pingTransition, pingGlobal, compareSolvers, physics];
   for (const s of steps) {
     try { await s(); } catch (e) { log(s.name + ' threw', false, e.stack || String(e)); }
     render(out);

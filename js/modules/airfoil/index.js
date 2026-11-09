@@ -4,7 +4,7 @@ import { Plot } from '../../lib/plot.js';
 import { FlowView } from './flowView.js';
 import { makeInsights } from './insights.js';
 import { session, toast } from '../../lib/state.js';
-import { sendSection } from '../../lib/send.js';
+import { sendSection, sendTo } from '../../lib/send.js';
 import { encodeSetup } from '../cfd/share.js';
 import { concepts } from './learn.js';
 import { presets, parseCoordinates } from './airfoilIO.js';
@@ -170,6 +170,10 @@ export const airfoilModule = {
 
     // ---------------- controls: hand the airfoil to the flow sandbox ----------------
     controls.append(sendSection([
+      { label: 'Wings & 3D Aero · Stall', sub: 'Build a wing from this section and see where it stalls', go: () => {
+        if (S.geom.kind !== 'naca' || !/^\d{4}$/.test(S.geom.code)) return 'The wing tools take NACA 4-digit sections; pick one (for example 2412)';
+        return sendTo({ mod: 'wings', tab: 'stall', states: { wing: { root: S.geom.code, tip: S.geom.code, preset: '' }, stall: { src: 'polar' } }, note: `NACA ${S.geom.code} as the root and tip section, with Airfoil Lab polars` });
+      } },
       { label: 'Fluid Flow Sandbox', sub: 'Watch this airfoil in real-time CFD (at a much lower Reynolds number)', go: () => {
         if (S.geom.kind !== 'naca' || !/^\d{4}$/.test(S.geom.code)) return 'The sandbox draws NACA 4-digit sections; pick one (for example 2412)';
         const a = S.oper.mode === 'alpha' || !isFinite(S.res?.alpha) ? S.oper.alpha : S.res.alpha;

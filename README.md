@@ -22,6 +22,7 @@ The same folder can be hosted as-is on any static web host (for example GitHub P
 | Module | What it does |
 | --- | --- |
 | [Airfoil Lab](docs/modules/airfoil-lab.md) | Viscous airfoil analysis (an XFOIL-class port of mfoil) with live flow visualization, polar sweeps, supersonic sections, and vehicle aero from F1 cars to fighters |
+| [Wings & 3D Aero](docs/modules/wings-and-3d-aero.md) | Finite wings by vortex lattice and lifting line: spanwise lift, induced drag, tip stall with Airfoil Lab polars, downwash at the tail, ground effect and winglets, in a 3-D view |
 | [Shocks & Nozzles](docs/modules/shocks-and-nozzles.md) | Compressible-flow calculator, shocks and expansion fans you can see, nozzles and plumes, the θ–β–M chart, a shock tube and a live Euler CFD solver |
 | [Fluid Flow Sandbox](docs/modules/fluid-flow-sandbox.md) | Real-time 2-D viscous flow on the GPU (lattice Boltzmann): 12 scenes, obstacles you draw and drag, forces, probes and spectra |
 | [Rocket Engines](docs/modules/rocket-engines.md) | Liquid engines sized from a thrust requirement with equilibrium chemistry, compared with eight real engines; altitude, plumes, propellants and cooling |
@@ -32,7 +33,7 @@ The same folder can be hosted as-is on any static web host (for example GitHub P
 | [Guidance, Navigation & Control](docs/modules/gnc.md) | Control loops, fly-by-wire, autopilots, navigation, INS/GNSS Kalman filtering and collaborative flight |
 | [Formula Library](docs/modules/formula-library.md) | 127 formulas in 11 topics: solve for any variable, plot, switch units, read what each one means |
 
-Planned: Wings & 3D Aero, Propellers & Rotors, Fatigue & Composites, Launch & Reentry,
+Planned: Propellers & Rotors, Fatigue & Composites, Launch & Reentry,
 Spacecraft Systems and Aircraft Design.
 
 ## Using it
@@ -44,7 +45,8 @@ Spacecraft Systems and Aircraft Design.
   project file), **Report** (a printable page of inputs and results, or save it as a PDF) and **Reset**.
 - **Open in another module:** take what you're working on further elsewhere: an airfoil into the Fluid Flow Sandbox
   (and back), a rocket engine's nozzle into Shocks & Nozzles or its chemistry into the CEA tool (and back), a ramp
-  onto the θ–β–M chart (and back), and an engine cycle's flight condition into the inlet tool or Airspeeds.
+  onto the θ–β–M chart (and back), and an engine cycle's flight condition into the inlet tool or Airspeeds, an airfoil into a wing (and a wing's root section
+  back to the Airfoil Lab), and a wing's aircraft into Flight & Atmosphere.
 - **Export:** hover any plot for a PNG image or its data as CSV; every visual view (flow fields, engine cut-aways,
   structures) has a button that saves it as a PNG.
 

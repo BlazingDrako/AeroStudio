@@ -4,7 +4,7 @@
 
 Every solver is checked against closed-form results, textbook tables, published data or reference codes.
 
-Open http://localhost:8765/tests/ to run the suite (add `?only=flight` for the atmosphere, airspeed, turbulence and performance checks, `?only=performance` for performance alone, `?only=stability` for stability alone, `?only=control` for the control, augmentation and autopilot checks, `?only=augment` or `?only=autopilot` for one of them, `?only=navigation` for navigation and INS/GNSS, `?only=ins` for INS/GNSS alone, `?only=collab` for collaborative flight, `?only=gasdyn` for just the compressible-flow checks, `?only=propulsion` for the engine and equilibrium checks, `?only=structures` for the structures checks, `?only=fem2d` for the 2D FEA checks, `?only=vibration` for the vibration checks, `?only=frame3d` for the 3D frame checks, `?only=formulas` for the Formula Library and `?only=cfd` for the Fluid Flow Sandbox, `?only=vehicles` for the Airfoil Lab's Vehicle aero tab):
+Open http://localhost:8765/tests/ to run the suite (add `?only=flight` for the atmosphere, airspeed, turbulence and performance checks, `?only=performance` for performance alone, `?only=stability` for stability alone, `?only=control` for the control, augmentation and autopilot checks, `?only=augment` or `?only=autopilot` for one of them, `?only=navigation` for navigation and INS/GNSS, `?only=ins` for INS/GNSS alone, `?only=collab` for collaborative flight, `?only=gasdyn` for just the compressible-flow checks, `?only=propulsion` for the engine and equilibrium checks, `?only=structures` for the structures checks, `?only=fem2d` for the 2D FEA checks, `?only=vibration` for the vibration checks, `?only=frame3d` for the 3D frame checks, `?only=formulas` for the Formula Library and `?only=cfd` for the Fluid Flow Sandbox, `?only=vehicles` for the Airfoil Lab's Vehicle aero tab, `?only=wings` for Wings & 3D Aero):
 
 - structures: beams (simply supported, cantilever, propped, fixed-fixed, continuous, hinged), trusses, inclined supports, thermal loads and portal frames vs. closed-form results; natural frequencies and Euler buckling loads; mechanism detection; friction/tipping/ladder limits; section properties; eigen and LP solvers;
 - vibration: exact SDOF integrator vs closed forms, step/pulse load factors, half-sine shock peak 1.77, Den Hartog absorber, modal superposition vs static deflection;
@@ -75,6 +75,15 @@ Open http://localhost:8765/tests/ to run the suite (add `?only=flight` for the a
   for bearings and time differences; rendezvous timing and holding; the minimum-drag speed;
 - formula library: solver vs textbook values (isentropic, shocks, pitot, Prandtl–Meyer, ISA, orbits, Kepler, buckling), every
   multiple-root case, unit conversions, and every formula solving and back-solving each of its variables;
+- wings & 3D aero: lifting line against Glauert (elliptic CL = 2πAα/(A+2) and e = 1 exactly, rectangular AR 6 e ≈ 0.95,
+  taper 0.35 near elliptic); vortex lattice e = 0.998 on the elliptic wing with lift centroid at 4/(3π) and near-uniform
+  induced angle, Bertin & Cummings' swept-wing example (AR 5, Λ 45°, 4 panels a side: 3.434 vs 3.443 /rad), lift slopes
+  against Helmbold/DATCOM (within 5% for AR 4–10, sweep 0–45°), the aerodynamic centre, grid convergence, twist and camber
+  zero-lift angles, far-wake downwash 2CL/(πA) and half of it on the lifting line, ground effect against an elliptic
+  lifting line with its image sheet (within 1% at h/b = 0.1 and 0.2), Göthert's rule against Helmbold at M 0.6,
+  winglets lowering induced drag with inboard side force, the equal-moment span extension, the nonlinear strips
+  reproducing the linear lattice, first stall at the root (rectangle), tip (taper 0.2, swept back) and inboard (washout,
+  forward sweep), and a symmetric, sinking, inward-rolling wake;
 - orbital mechanics: Kepler's equation to 10⁻¹² up to e = 0.99, elements → state → elements round trip, |r| and |v|
   against the conic and vis-viva, h = √(μp), the 400 km circular speed and period, GEO period = sidereal day, equal areas
   in equal times on a Molniya orbit, Hohmann LEO → GEO against Vallado example 6-1 (2.457 + 1.478 km/s, 5.256 h), the

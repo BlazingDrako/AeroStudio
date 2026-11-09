@@ -25,6 +25,8 @@ js/solvers/performance.js      aircraft models and performance: speeds, climb, r
 js/solvers/stability.js        geometry-based derivatives, trim, state matrices, eigen-analysis, handling qualities (no DOM)
 js/modules/rocket/             Rocket Engines UI (engine design and cut-away, altitude & expansion, propellants, cooling)
 js/solvers/rocket.js           engine sizing, contour, expansion table, separation, plume, Bartz heat flux (no DOM)
+js/modules/wings/              Wings & 3D Aero UI (planform editor, 3-D wing view, stall, wake & downwash, winglets, aircraft)
+js/solvers/wing.js             vortex lattice, lifting line, Trefftz drag, ground effect, Göthert, stall strips, wake roll-up (no DOM)
 js/modules/orbits/             Orbital Mechanics UI (3-D orbit view, transfers, ground tracks on a simplified world map, Δv budget)
 js/solvers/orbits.js           Kepler's equation, elements ↔ state, Hohmann/bi-elliptic/plane changes, J2, ground tracks, Δv budgets (no DOM)
 js/modules/gnc/                Guidance, Navigation & Control UI (control loops, augmentation & FBW, autopilots, navigation, INS & GNSS, collaborative flight)

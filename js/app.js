@@ -11,6 +11,7 @@ import { flightModule } from './modules/flight/index.js';
 import { gncModule } from './modules/gnc/index.js';
 import { rocketModule } from './modules/rocket/index.js';
 import { orbitsModule } from './modules/orbits/index.js';
+import { wingsModule } from './modules/wings/index.js';
 import { PREVIEWS } from './previews.js';
 import { watchViews } from './lib/export.js';
 import { initSearch, openSearch, searchShortcut } from './lib/search.js';
@@ -21,9 +22,9 @@ const modules = [
   { ...airfoilModule, icon: 'airfoil', group: 'Aerodynamics', status: 'live',
     blurb: 'Viscous airfoil analysis with live flow visualization: pressure, streamlines, boundary layer, transition and stall, plus vehicle aerodynamics in real units.',
     features: ['Panel method + boundary layer (XFOIL-class), with lift and drag forces', 'NACA 4/5-digit or your own coordinates, flaps and polar sweeps', 'Supersonic sections and vehicle aero, from F1 cars to fighters'] },
-  { id: 'wings', title: 'Wings & 3D Aero', icon: 'wing', group: 'Aerodynamics', status: 'planned',
+  { ...wingsModule, icon: 'wing', group: 'Aerodynamics', status: 'live',
     blurb: 'From airfoil to whole wing: see lift spread across the span, tip vortices roll up and induced drag appear, and how sweep, taper and twist decide where a wing stalls first.',
-    features: ['Vortex-lattice and lifting-line solvers, with section polars from the Airfoil Lab', 'Planform, sweep, taper, twist, dihedral and winglets', 'Spanwise lift, induced drag, downwash at the tail and tip stall'] },
+    features: ['Vortex-lattice and lifting-line solvers, with section polars from the Airfoil Lab', 'Planform, sweep, taper, twist, dihedral and winglets', 'Spanwise lift, induced drag, downwash at the tail, ground effect and tip stall'] },
   { ...compressibleModule, icon: 'shock', group: 'Aerodynamics', status: 'live',
     blurb: 'Shocks, expansion fans and nozzles you can see: watch a shock move through a nozzle as back pressure drops, and Mach diamonds form in the plume.',
     features: ['Step-by-step calculator: isentropic, shocks, Prandtl–Meyer, Fanno, Rayleigh', 'Nine flow scenarios with a schlieren view, plus a shock tube', 'Conical, bell and MOC nozzles and the θ–β–M chart'] },
